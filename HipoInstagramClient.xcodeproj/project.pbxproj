@@ -11,6 +11,9 @@
 		5702E64A1B9C8BB6001D3E9E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5702E6491B9C8BB6001D3E9E /* AppDelegate.m */; };
 		5702E6521B9C8BB6001D3E9E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5702E6511B9C8BB6001D3E9E /* Images.xcassets */; };
 		5702E6551B9C8BB6001D3E9E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5702E6531B9C8BB6001D3E9E /* LaunchScreen.xib */; };
+		5702E6701B9DFF7F001D3E9E /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5702E66F1B9DFF7F001D3E9E /* APIManager.m */; };
+		5702E6731B9DFFE8001D3E9E /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5702E6721B9DFFE8001D3E9E /* BaseViewController.m */; };
+		5702E6761B9DFFFD001D3E9E /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5702E6751B9DFFFD001D3E9E /* BaseModel.m */; };
 		AD07C1122F75162B5E71A0A2 /* libPods-HipoInstagramClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A61EED7A51401105BA12796 /* libPods-HipoInstagramClient.a */; };
 /* End PBXBuildFile section */
 
@@ -26,6 +29,12 @@
 		5702E6541B9C8BB6001D3E9E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		5702E65F1B9C8BB6001D3E9E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5702E6601B9C8BB6001D3E9E /* HipoInstagramClientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HipoInstagramClientTests.m; sourceTree = "<group>"; };
+		5702E66E1B9DFF7F001D3E9E /* APIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIManager.h; sourceTree = "<group>"; };
+		5702E66F1B9DFF7F001D3E9E /* APIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIManager.m; sourceTree = "<group>"; };
+		5702E6711B9DFFE8001D3E9E /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		5702E6721B9DFFE8001D3E9E /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		5702E6741B9DFFFD001D3E9E /* BaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseModel.h; sourceTree = "<group>"; };
+		5702E6751B9DFFFD001D3E9E /* BaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseModel.m; sourceTree = "<group>"; };
 		BF43B69106D115D992781F46 /* Pods-HipoInstagramClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HipoInstagramClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-HipoInstagramClient/Pods-HipoInstagramClient.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -114,6 +123,8 @@
 		5702E66A1B9DE06C001D3E9E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				5702E6711B9DFFE8001D3E9E /* BaseViewController.h */,
+				5702E6721B9DFFE8001D3E9E /* BaseViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -128,6 +139,8 @@
 		5702E66C1B9DE06C001D3E9E /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				5702E6741B9DFFFD001D3E9E /* BaseModel.h */,
+				5702E6751B9DFFFD001D3E9E /* BaseModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -135,6 +148,8 @@
 		5702E66D1B9DFD84001D3E9E /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				5702E66E1B9DFF7F001D3E9E /* APIManager.h */,
+				5702E66F1B9DFF7F001D3E9E /* APIManager.m */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -252,7 +267,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				5702E64A1B9C8BB6001D3E9E /* AppDelegate.m in Sources */,
+				5702E6731B9DFFE8001D3E9E /* BaseViewController.m in Sources */,
 				5702E6471B9C8BB6001D3E9E /* main.m in Sources */,
+				5702E6761B9DFFFD001D3E9E /* BaseModel.m in Sources */,
+				5702E6701B9DFF7F001D3E9E /* APIManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
