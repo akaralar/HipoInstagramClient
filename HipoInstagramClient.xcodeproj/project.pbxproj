@@ -72,6 +72,10 @@
 		5702E6431B9C8BB6001D3E9E /* HipoInstagramClient */ = {
 			isa = PBXGroup;
 			children = (
+				5702E66D1B9DFD84001D3E9E /* Managers */,
+				5702E66A1B9DE06C001D3E9E /* Controllers */,
+				5702E66B1B9DE06C001D3E9E /* Views */,
+				5702E66C1B9DE06C001D3E9E /* Models */,
 				5702E6481B9C8BB6001D3E9E /* AppDelegate.h */,
 				5702E6491B9C8BB6001D3E9E /* AppDelegate.m */,
 				5702E6511B9C8BB6001D3E9E /* Images.xcassets */,
@@ -105,6 +109,34 @@
 				5702E65F1B9C8BB6001D3E9E /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5702E66A1B9DE06C001D3E9E /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		5702E66B1B9DE06C001D3E9E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		5702E66C1B9DE06C001D3E9E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		5702E66D1B9DFD84001D3E9E /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 		5994AB6686F01F96B4D1425F /* Frameworks */ = {
