@@ -14,6 +14,8 @@
 		5702E6701B9DFF7F001D3E9E /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5702E66F1B9DFF7F001D3E9E /* APIManager.m */; };
 		5702E6731B9DFFE8001D3E9E /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5702E6721B9DFFE8001D3E9E /* BaseViewController.m */; };
 		5702E6761B9DFFFD001D3E9E /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5702E6751B9DFFFD001D3E9E /* BaseModel.m */; };
+		5702E6791B9E1122001D3E9E /* SplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5702E6781B9E1122001D3E9E /* SplashViewController.m */; };
+		5702E67C1B9E112D001D3E9E /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5702E67B1B9E112D001D3E9E /* LoginViewController.m */; };
 		AD07C1122F75162B5E71A0A2 /* libPods-HipoInstagramClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A61EED7A51401105BA12796 /* libPods-HipoInstagramClient.a */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +37,10 @@
 		5702E6721B9DFFE8001D3E9E /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		5702E6741B9DFFFD001D3E9E /* BaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseModel.h; sourceTree = "<group>"; };
 		5702E6751B9DFFFD001D3E9E /* BaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseModel.m; sourceTree = "<group>"; };
+		5702E6771B9E1122001D3E9E /* SplashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplashViewController.h; sourceTree = "<group>"; };
+		5702E6781B9E1122001D3E9E /* SplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplashViewController.m; sourceTree = "<group>"; };
+		5702E67A1B9E112D001D3E9E /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		5702E67B1B9E112D001D3E9E /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		BF43B69106D115D992781F46 /* Pods-HipoInstagramClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HipoInstagramClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-HipoInstagramClient/Pods-HipoInstagramClient.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -125,6 +131,10 @@
 			children = (
 				5702E6711B9DFFE8001D3E9E /* BaseViewController.h */,
 				5702E6721B9DFFE8001D3E9E /* BaseViewController.m */,
+				5702E6771B9E1122001D3E9E /* SplashViewController.h */,
+				5702E6781B9E1122001D3E9E /* SplashViewController.m */,
+				5702E67A1B9E112D001D3E9E /* LoginViewController.h */,
+				5702E67B1B9E112D001D3E9E /* LoginViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -270,7 +280,9 @@
 				5702E6731B9DFFE8001D3E9E /* BaseViewController.m in Sources */,
 				5702E6471B9C8BB6001D3E9E /* main.m in Sources */,
 				5702E6761B9DFFFD001D3E9E /* BaseModel.m in Sources */,
+				5702E67C1B9E112D001D3E9E /* LoginViewController.m in Sources */,
 				5702E6701B9DFF7F001D3E9E /* APIManager.m in Sources */,
+				5702E6791B9E1122001D3E9E /* SplashViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,6 +386,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = HipoInstagramClient/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -385,6 +398,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = HipoInstagramClient/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

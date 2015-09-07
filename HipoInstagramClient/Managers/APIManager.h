@@ -8,6 +8,11 @@
 
 #import "AFHTTPSessionManager.h"
 
+typedef void(^SuccessBlock)(NSURLSessionDataTask *task, id responseObject);
+typedef void(^FailureBlock)(NSURLSessionDataTask *task, NSError *error);
+
 @interface APIManager : AFHTTPSessionManager
+
++ (instancetype)sharedManager;
 
 @end
