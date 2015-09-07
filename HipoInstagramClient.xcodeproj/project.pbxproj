@@ -11,18 +11,7 @@
 		5702E64A1B9C8BB6001D3E9E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5702E6491B9C8BB6001D3E9E /* AppDelegate.m */; };
 		5702E6521B9C8BB6001D3E9E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5702E6511B9C8BB6001D3E9E /* Images.xcassets */; };
 		5702E6551B9C8BB6001D3E9E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5702E6531B9C8BB6001D3E9E /* LaunchScreen.xib */; };
-		5702E6611B9C8BB6001D3E9E /* HipoInstagramClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5702E6601B9C8BB6001D3E9E /* HipoInstagramClientTests.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		5702E65B1B9C8BB6001D3E9E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5702E6391B9C8BB6001D3E9E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5702E6401B9C8BB6001D3E9E;
-			remoteInfo = HipoInstagramClient;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		5702E6411B9C8BB6001D3E9E /* HipoInstagramClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HipoInstagramClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -32,20 +21,12 @@
 		5702E6491B9C8BB6001D3E9E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		5702E6511B9C8BB6001D3E9E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5702E6541B9C8BB6001D3E9E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		5702E65A1B9C8BB6001D3E9E /* HipoInstagramClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HipoInstagramClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5702E65F1B9C8BB6001D3E9E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5702E6601B9C8BB6001D3E9E /* HipoInstagramClientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HipoInstagramClientTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		5702E63E1B9C8BB6001D3E9E /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5702E6571B9C8BB6001D3E9E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -68,7 +49,6 @@
 			isa = PBXGroup;
 			children = (
 				5702E6411B9C8BB6001D3E9E /* HipoInstagramClient.app */,
-				5702E65A1B9C8BB6001D3E9E /* HipoInstagramClientTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -131,24 +111,6 @@
 			productReference = 5702E6411B9C8BB6001D3E9E /* HipoInstagramClient.app */;
 			productType = "com.apple.product-type.application";
 		};
-		5702E6591B9C8BB6001D3E9E /* HipoInstagramClientTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5702E6671B9C8BB6001D3E9E /* Build configuration list for PBXNativeTarget "HipoInstagramClientTests" */;
-			buildPhases = (
-				5702E6561B9C8BB6001D3E9E /* Sources */,
-				5702E6571B9C8BB6001D3E9E /* Frameworks */,
-				5702E6581B9C8BB6001D3E9E /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				5702E65C1B9C8BB6001D3E9E /* PBXTargetDependency */,
-			);
-			name = HipoInstagramClientTests;
-			productName = HipoInstagramClientTests;
-			productReference = 5702E65A1B9C8BB6001D3E9E /* HipoInstagramClientTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -160,10 +122,6 @@
 				TargetAttributes = {
 					5702E6401B9C8BB6001D3E9E = {
 						CreatedOnToolsVersion = 6.4;
-					};
-					5702E6591B9C8BB6001D3E9E = {
-						CreatedOnToolsVersion = 6.4;
-						TestTargetID = 5702E6401B9C8BB6001D3E9E;
 					};
 				};
 			};
@@ -181,7 +139,6 @@
 			projectRoot = "";
 			targets = (
 				5702E6401B9C8BB6001D3E9E /* HipoInstagramClient */,
-				5702E6591B9C8BB6001D3E9E /* HipoInstagramClientTests */,
 			);
 		};
 /* End PBXProject section */
@@ -193,13 +150,6 @@
 			files = (
 				5702E6551B9C8BB6001D3E9E /* LaunchScreen.xib in Resources */,
 				5702E6521B9C8BB6001D3E9E /* Images.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5702E6581B9C8BB6001D3E9E /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,23 +165,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5702E6561B9C8BB6001D3E9E /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5702E6611B9C8BB6001D3E9E /* HipoInstagramClientTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		5702E65C1B9C8BB6001D3E9E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5702E6401B9C8BB6001D3E9E /* HipoInstagramClient */;
-			targetProxy = 5702E65B1B9C8BB6001D3E9E /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		5702E6531B9C8BB6001D3E9E /* LaunchScreen.xib */ = {
@@ -345,40 +279,6 @@
 			};
 			name = Release;
 		};
-		5702E6681B9C8BB6001D3E9E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = HipoInstagramClientTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HipoInstagramClient.app/HipoInstagramClient";
-			};
-			name = Debug;
-		};
-		5702E6691B9C8BB6001D3E9E /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = HipoInstagramClientTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HipoInstagramClient.app/HipoInstagramClient";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -396,14 +296,6 @@
 			buildConfigurations = (
 				5702E6651B9C8BB6001D3E9E /* Debug */,
 				5702E6661B9C8BB6001D3E9E /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-		};
-		5702E6671B9C8BB6001D3E9E /* Build configuration list for PBXNativeTarget "HipoInstagramClientTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5702E6681B9C8BB6001D3E9E /* Debug */,
-				5702E6691B9C8BB6001D3E9E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
