@@ -27,8 +27,6 @@ static NSString *const kTokenParameterKey = @"access_token";
 static NSString *const kMaxIDParameterKey = @"max_id";
 static NSString *const kItemsPerPageParameterKey = @"count";
 
-static const NSInteger kDefaultItemsPerPage = 20;
-
 @interface APIManager ()
 
 @property (nonatomic) NSString *userID;
@@ -102,9 +100,6 @@ static const NSInteger kDefaultItemsPerPage = 20;
 
     if (itemsPerPage) {
         [params setObject:itemsPerPage forKey:kItemsPerPageParameterKey];
-    }
-    else {
-        [params setObject:@(kDefaultItemsPerPage) forKey:kItemsPerPageParameterKey];
     }
 
     AFSuccessBlock modifiedSuccess =

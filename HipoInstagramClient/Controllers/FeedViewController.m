@@ -8,12 +8,18 @@
 
 #import "FeedViewController.h"
 
+#import "PhotoFetcher.h"
+#import "Feed.h"
+
 #import "InstagramCell.h"
 #import "LoadingIndicatorCell.h"
+
+typedef NS_ENUM(NSInteger, TableSection) { TableSectionAssets, TableSectionLoading };
 
 @interface FeedViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic) UITableView *tableView;
+@property (nonatomic) PhotoFetcher *fetcher;
 
 @end
 
@@ -29,30 +35,56 @@
     self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
     self.tableView.tableFooterView = [UIView new];
     [self.view addSubview:self.tableView];
-    
+
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    
 
     [self.tableView registerClass:[InstagramCell class]
            forCellReuseIdentifier:NSStringFromClass([InstagramCell class])];
     [self.tableView registerClass:[LoadingIndicatorCell class]
            forCellReuseIdentifier:NSStringFromClass([LoadingIndicatorCell class])];
 
-
     [self.tableView autoPinEdgesToSuperviewEdges];
+
+    self.fetcher = [PhotoFetcher new];
 }
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+    __weak typeof(self) weakSelf = self;
+    [self.fetcher fetchUserFeedSuccess:^(Feed *feedAfterFetch) {
+        __strong typeof(self) strongSelf = weakSelf;
+        
+        [strongSelf.tableView reloadData];
+
+    } failure:^(NSError *error){
+
+        NSLog(@"error: %@", error);
+    }];
+}
+
 
 #pragma mark - UITableViewDataSource & Delegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return self.fetcher.currentFeed.isDisplayingLastPage ? 1 : 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    switch (section) {
+        case TableSectionAssets:
+            return (NSInteger)self.fetcher.currentFeed.assets.count;
+
+        case TableSectionLoading:
+            return 1;
+
+        default:
+            return 0;
+    }
 }
 
 
