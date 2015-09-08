@@ -96,7 +96,7 @@
                     decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 {
     NSURL *url = navigationAction.request.URL;
-    if ([url.host isEqualToString:kAuthRedirectURIHostName]) {
+    if ([APIManager isAuthenticationRedirectHost:url.host]) {
         
         NSString *userID = [self userIDFromURL:url];
         NSString *token = [self tokenFromURL:url];
@@ -109,6 +109,9 @@
             
             [self proceedToFeed];
             return;
+        }
+        else {
+            // TODO: handle error in auth
         }
     }
 

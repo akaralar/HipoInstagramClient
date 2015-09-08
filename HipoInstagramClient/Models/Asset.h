@@ -10,4 +10,9 @@
 
 @interface Asset : BaseModel
 
+@property (nonatomic) NSString *ownerUsername;
+@property (nonatomic) NSURL *ownerAvatarURL;
+@property (nonatomic) NSDate *postDate;
+@property (nonatomic) NSURL *assetURL;
+
 @end

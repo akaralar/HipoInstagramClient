@@ -13,7 +13,6 @@ static NSString *const kClientID = @"36412ddc9ac044fc99783825ba3747ab";
 static NSString *const kClientSecret = @"78a207a5f87f4055a641ef9ff1673546";
 
 static NSString *const kAuthRedirectURI = @"http://localhost:8888/";
-NSString *kAuthRedirectURIHostName = nil;
 
 static NSString *const kPopularPhotosPath = @"mdeia/popular";
 
@@ -51,10 +50,6 @@ static NSString *const kTokenParameterKey = @"access_token";
 
 + (NSURL *)authenticationURL
 {
-    if (!kAuthRedirectURIHostName) {
-        kAuthRedirectURIHostName = [NSURL URLWithString:kAuthRedirectURI].host;
-    }
-
     NSString *urlString =
         [NSString stringWithFormat:@"https://instagram.com/oauth/authorize/"
                                    @"?client_id=%@&redirect_uri=%@&response_type=token",
@@ -62,6 +57,11 @@ static NSString *const kTokenParameterKey = @"access_token";
                                    kAuthRedirectURI];
 
     return [NSURL URLWithString:urlString];
+}
+
++ (BOOL)isAuthenticationRedirectHost:(NSString *)host
+{
+    return [host isEqualToString:[NSURL URLWithString:kAuthRedirectURI].host];
 }
 
 - (void)saveAccessToken:(NSString *)accessToken
