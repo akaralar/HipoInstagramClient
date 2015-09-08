@@ -12,8 +12,8 @@ static NSString *const kBaseURL = @"https://api.instagram.com/";
 static NSString *const kClientID = @"36412ddc9ac044fc99783825ba3747ab";
 static NSString *const kClientSecret = @"78a207a5f87f4055a641ef9ff1673546";
 
-static NSString *kAuthRedirectURI = nil;
-NSString *const kAuthRedirectURIHostName = @"localhost";
+static NSString *const kAuthRedirectURI = @"http://localhost:8888/";
+NSString *kAuthRedirectURIHostName = nil;
 
 @interface APIManager ()
 
@@ -47,8 +47,8 @@ NSString *const kAuthRedirectURIHostName = @"localhost";
 
 + (NSURL *)authenticationURL
 {
-    if (!kAuthRedirectURI) {
-        kAuthRedirectURI = [NSString stringWithFormat:@"http://%@:8888/", kAuthRedirectURIHostName];
+    if (!kAuthRedirectURIHostName) {
+        kAuthRedirectURIHostName = [NSURL URLWithString:kAuthRedirectURI].host;
     }
 
     NSString *urlString =

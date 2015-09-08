@@ -27,9 +27,8 @@
     self.navigationItem.hidesBackButton = YES;
 
     self.webView = [[WKWebView alloc] initForAutoLayout];
-    [self.view addSubview:self.webView];
-
     self.webView.navigationDelegate = self;
+    [self.view addSubview:self.webView];
 
     [self.webView autoPinEdgesToSuperviewEdges];
 }
@@ -42,7 +41,6 @@
     NSURLRequest *authRequest = [NSURLRequest requestWithURL:authURL];
     [self.webView loadRequest:authRequest];
 }
-
 
 - (void)webView:(WKWebView *)webView
     decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction

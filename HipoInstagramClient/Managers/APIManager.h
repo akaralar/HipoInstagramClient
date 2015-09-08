@@ -11,7 +11,7 @@
 typedef void (^SuccessBlock)(NSURLSessionDataTask *task, id responseObject);
 typedef void (^FailureBlock)(NSURLSessionDataTask *task, NSError *error);
 
-FOUNDATION_EXPORT NSString *const kAuthRedirectURIHostName;
+FOUNDATION_EXPORT NSString *kAuthRedirectURIHostName;
 
 @interface APIManager : AFHTTPSessionManager
 
