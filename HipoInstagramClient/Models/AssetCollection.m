@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 akaralar. All rights reserved.
 //
 
-#import "MediaCollection.h"
+#import "AssetCollection.h"
 
-@implementation MediaCollection
+@implementation AssetCollection
 
 @end

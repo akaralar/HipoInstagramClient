@@ -8,12 +8,16 @@
 
 #import "APIManager.h"
 
-static NSString *const kBaseURL = @"https://api.instagram.com/";
+static NSString *const kBaseURL = @"https://api.instagram.com/v1/";
 static NSString *const kClientID = @"36412ddc9ac044fc99783825ba3747ab";
 static NSString *const kClientSecret = @"78a207a5f87f4055a641ef9ff1673546";
 
 static NSString *const kAuthRedirectURI = @"http://localhost:8888/";
 NSString *kAuthRedirectURIHostName = nil;
+
+static NSString *const kPopularPhotosPath = @"mdeia/popular";
+
+static NSString *const kTokenParameterKey = @"access_token";
 
 @interface APIManager ()
 
@@ -62,12 +66,25 @@ NSString *kAuthRedirectURIHostName = nil;
 
 - (void)saveAccessToken:(NSString *)accessToken
 {
+    NSParameterAssert(accessToken);
     self.accessToken = accessToken;
 }
 
 - (void)saveUserID:(NSString *)userID
 {
+    NSParameterAssert(userID);
     self.userID = userID;
+}
+
+- (void)getPopularPhotosWithSuccess:(SuccessBlock)success failure:(FailureBlock)failure
+{
+    NSDictionary *params = @{kTokenParameterKey : self.accessToken};
+
+    SuccessBlock modifiedSuccess = ^(NSURLSessionDataTask *task, id responseObject) {  //
+        success(task, responseObject);
+    };
+
+    [self GET:kPopularPhotosPath parameters:params success:modifiedSuccess failure:failure];
 }
 
 #pragma mark - Internal Helpers

@@ -21,4 +21,6 @@ FOUNDATION_EXPORT NSString *kAuthRedirectURIHostName;
 - (void)saveUserID:(NSString *)userID;
 - (void)saveAccessToken:(NSString *)accessToken;
 
+- (void)getPopularPhotosWithSuccess:(SuccessBlock)success failure:(FailureBlock)failure;
+
 @end
