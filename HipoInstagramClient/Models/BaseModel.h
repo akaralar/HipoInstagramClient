@@ -10,4 +10,6 @@
 
 @interface BaseModel : MTLModel
 
++ (NSDateFormatter *)unixDateFormatter;
+
 @end
