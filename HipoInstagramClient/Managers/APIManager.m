@@ -14,7 +14,7 @@ static NSString *const kClientSecret = @"78a207a5f87f4055a641ef9ff1673546";
 
 static NSString *const kAuthRedirectURI = @"http://localhost:8888/";
 
-static NSString *const kPopularPhotosPath = @"mdeia/popular";
+static NSString *const kPopularPhotosPath = @"media/popular";
 
 static NSString *const kTokenParameterKey = @"access_token";
 
