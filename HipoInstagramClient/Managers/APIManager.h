@@ -8,7 +8,9 @@
 
 #import "AFHTTPSessionManager.h"
 
-typedef void (^SuccessBlock)(NSURLSessionDataTask *task, id responseObject);
+@class FetchResult;
+
+typedef void (^SuccessBlock)(NSURLSessionDataTask *task, FetchResult *result);
 typedef void (^FailureBlock)(NSURLSessionDataTask *task, NSError *error);
 
 @interface APIManager : AFHTTPSessionManager
@@ -20,9 +22,9 @@ typedef void (^FailureBlock)(NSURLSessionDataTask *task, NSError *error);
 - (void)saveUserID:(NSString *)userID;
 - (void)saveAccessToken:(NSString *)accessToken;
 
-- (void)getFeedPhotosAfterMediaWithID:(NSString *)mediaID
-                         itemsPerPage:(NSNumber *)itemsPerPage
-                              success:(SuccessBlock)success
-                              failure:(FailureBlock)failure;
+- (void)fetchFeedPhotosAfterMediaWithID:(NSString *)mediaID
+                           itemsPerPage:(NSNumber *)itemsPerPage
+                                success:(SuccessBlock)success
+                                failure:(FailureBlock)failure;
 
 @end

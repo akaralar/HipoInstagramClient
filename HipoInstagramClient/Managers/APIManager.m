@@ -8,9 +8,12 @@
 
 #import "APIManager.h"
 
-#import "Asset.h"
+#import "FetchResult.h"
 
 #import <Mantle/MTLJSONAdapter.h>
+
+typedef void (^AFSuccessBlock)(NSURLSessionDataTask *task, id responseObject);
+typedef void (^AFFailureBlock)(NSURLSessionDataTask *task, NSError *error);
 
 static NSString *const kBaseURL = @"https://api.instagram.com/v1/";
 static NSString *const kClientID = @"36412ddc9ac044fc99783825ba3747ab";
@@ -84,10 +87,10 @@ static const NSInteger kDefaultItemsPerPage = 20;
     self.userID = userID;
 }
 
-- (void)getFeedPhotosAfterMediaWithID:(NSString *)mediaID
-                         itemsPerPage:(NSNumber *)itemsPerPage
-                              success:(SuccessBlock)success
-                              failure:(FailureBlock)failure
+- (void)fetchFeedPhotosAfterMediaWithID:(NSString *)mediaID
+                           itemsPerPage:(NSNumber *)itemsPerPage
+                                success:(SuccessBlock)success
+                                failure:(FailureBlock)failure
 
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -104,12 +107,13 @@ static const NSInteger kDefaultItemsPerPage = 20;
         [params setObject:@(kDefaultItemsPerPage) forKey:kItemsPerPageParameterKey];
     }
 
-    SuccessBlock modifiedSuccess = ^(NSURLSessionDataTask *task, NSDictionary *responseObject) {  //
+    AFSuccessBlock modifiedSuccess =
+        ^(NSURLSessionDataTask *task, NSDictionary *responseObject) {  //
 
-        NSArray *assets = [MTLJSONAdapter modelsOfClass:[Asset class]
-                                          fromJSONArray:responseObject[@"data"]
-                                                  error:nil];
-        success(task, assets);
+        FetchResult *result = [MTLJSONAdapter modelOfClass:[FetchResult class]
+                                        fromJSONDictionary:responseObject
+                                                     error:nil];
+        success(task, result);
     };
 
     [self GET:kUserFeedPath parameters:params success:modifiedSuccess failure:failure];

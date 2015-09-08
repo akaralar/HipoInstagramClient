@@ -8,6 +8,25 @@
 
 #import "PhotoFetcher.h"
 
+#import "APIManager.h"
+#import "Feed.h"
+#import "FetchResult.h"
+
+@interface PhotoFetcher ()
+
+@property (nonatomic, readwrite) Feed *currentFeed;
+@property (nonatomic) FetchResult *lastResult;
+
+@end
+
 @implementation PhotoFetcher
 
+
+- (void)fetchUserFeedSuccess:(FetchSuccessBlock)success failure:(FetchFailureBlock)failure
+{
+}
+
+- (void)fetchNextPageSuccess:(FetchSuccessBlock)success failure:(FetchFailureBlock)failure
+{
+}
 @end

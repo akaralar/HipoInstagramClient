@@ -10,8 +10,14 @@
 
 @class Feed;
 
+typedef void(^FetchSuccessBlock)(Feed *feedAfterFetch);
+typedef void(^FetchFailureBlock)(NSError *error);
+
 @interface PhotoFetcher : BaseModel
 
-@property (nonatomic) Feed *fetchedMedia;
+@property (nonatomic, readonly) Feed *currentFeed;
+
+- (void)fetchUserFeedSuccess:(FetchSuccessBlock)success failure:(FetchFailureBlock)failure;
+- (void)fetchNextPageSuccess:(FetchSuccessBlock)success failure:(FetchFailureBlock)failure;
 
 @end
