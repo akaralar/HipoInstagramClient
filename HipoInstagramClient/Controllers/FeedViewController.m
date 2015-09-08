@@ -11,7 +11,7 @@
 #import "InstagramCell.h"
 #import "LoadingIndicatorCell.h"
 
-@interface FeedViewController ()
+@interface FeedViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic) UITableView *tableView;
 
@@ -29,6 +29,10 @@
     self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
     self.tableView.tableFooterView = [UIView new];
     [self.view addSubview:self.tableView];
+    
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    
 
     [self.tableView registerClass:[InstagramCell class]
            forCellReuseIdentifier:NSStringFromClass([InstagramCell class])];
@@ -39,6 +43,12 @@
     [self.tableView autoPinEdgesToSuperviewEdges];
 }
 
+#pragma mark - UITableViewDataSource & Delegate
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 2;
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {

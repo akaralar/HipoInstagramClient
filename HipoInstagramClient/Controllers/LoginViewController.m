@@ -27,6 +27,8 @@
 
 @implementation LoginViewController
 
+#pragma mark - View Lifecycle
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -49,29 +51,7 @@
     [self.webView loadRequest:authRequest];
 }
 
-- (void)webView:(WKWebView *)webView
-    decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
-                    decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
-{
-    NSURL *url = navigationAction.request.URL;
-    if ([url.host isEqualToString:kAuthRedirectURIHostName]) {
-        
-        NSString *userID = [self userIDFromURL:url];
-        NSString *token = [self tokenFromURL:url];
-        
-        if (userID && token) {
-            [[APIManager sharedManager] saveUserID:userID];
-            [[APIManager sharedManager] saveAccessToken:token];
-
-            decisionHandler(WKNavigationActionPolicyCancel);
-            
-            [self proceedToFeed];
-            return;
-        }
-    }
-
-    decisionHandler(WKNavigationActionPolicyAllow);
-}
+#pragma mark - Internal Helpers
 
 - (NSString *)userIDFromURL:(NSURL *)url
 {
@@ -107,6 +87,32 @@
 {
     FeedViewController *controller = [FeedViewController new];
     [self.navigationController pushViewController:controller animated:YES];
+}
+
+#pragma mark - WKNavigationDelegate
+
+- (void)webView:(WKWebView *)webView
+    decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
+                    decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
+{
+    NSURL *url = navigationAction.request.URL;
+    if ([url.host isEqualToString:kAuthRedirectURIHostName]) {
+        
+        NSString *userID = [self userIDFromURL:url];
+        NSString *token = [self tokenFromURL:url];
+        
+        if (userID && token) {
+            [[APIManager sharedManager] saveUserID:userID];
+            [[APIManager sharedManager] saveAccessToken:token];
+
+            decisionHandler(WKNavigationActionPolicyCancel);
+            
+            [self proceedToFeed];
+            return;
+        }
+    }
+
+    decisionHandler(WKNavigationActionPolicyAllow);
 }
 
 @end
