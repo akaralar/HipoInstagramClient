@@ -8,7 +8,7 @@
 
 #import "BaseModel.h"
 
-static NSDateFormatter *kDateFormatter = nil;
+static NSNumberFormatter *kNumberFormatter = nil;
 
 @interface BaseModel ()
 
@@ -16,17 +16,20 @@ static NSDateFormatter *kDateFormatter = nil;
 
 @implementation BaseModel
 
-+ (NSDateFormatter *)unixDateFormatter
++ (NSNumberFormatter *)unixTimeFormatter
 {
-    if (!kDateFormatter) {
-        kDateFormatter = [NSDateFormatter new];
-
-        NSLocale *enUSPOSIXLocale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
-        [kDateFormatter setLocale:enUSPOSIXLocale];
-        [kDateFormatter setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'SSS'Z'"];
-        [kDateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    if (!kNumberFormatter) {
+        
+        kNumberFormatter = [NSNumberFormatter new];
+        kNumberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
+//        kNumberFormatter = [NSDateFormatter new];
+//
+//        NSLocale *enUSPOSIXLocale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
+//        [kNumberFormatter setLocale:enUSPOSIXLocale];
+//        [kNumberFormatter setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'SSS'Z'"];
+//        [kNumberFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
     }
-    return kDateFormatter;
+    return kNumberFormatter;
 }
 
 @end

@@ -7,11 +7,14 @@
 //
 
 #import "BaseModel.h"
+#import <Mantle/MTLJSONAdapter.h>
 
-@interface Asset : BaseModel
+@class User;
 
-@property (nonatomic) NSString *ownerUsername;
-@property (nonatomic) NSURL *ownerAvatarURL;
+@interface Asset : BaseModel <MTLJSONSerializing>
+
+@property (nonatomic) NSString *identifier;
+@property (nonatomic) User *owner;
 @property (nonatomic) NSDate *postDate;
 @property (nonatomic) NSURL *assetURL;
 

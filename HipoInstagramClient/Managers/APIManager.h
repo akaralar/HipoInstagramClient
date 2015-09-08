@@ -20,6 +20,9 @@ typedef void (^FailureBlock)(NSURLSessionDataTask *task, NSError *error);
 - (void)saveUserID:(NSString *)userID;
 - (void)saveAccessToken:(NSString *)accessToken;
 
-- (void)getPopularPhotosWithSuccess:(SuccessBlock)success failure:(FailureBlock)failure;
+- (void)getFeedPhotosAfterMediaWithID:(NSString *)mediaID
+                         itemsPerPage:(NSNumber *)itemsPerPage
+                              success:(SuccessBlock)success
+                              failure:(FailureBlock)failure;
 
 @end

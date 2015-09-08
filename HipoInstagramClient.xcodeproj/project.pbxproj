@@ -19,8 +19,11 @@
 		5702E67F1B9F2A9D001D3E9E /* FeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5702E67E1B9F2A9D001D3E9E /* FeedViewController.m */; };
 		5702E6821B9F2FB2001D3E9E /* InstagramCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5702E6811B9F2FB2001D3E9E /* InstagramCell.m */; };
 		5702E6851B9F3017001D3E9E /* LoadingIndicatorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5702E6841B9F3017001D3E9E /* LoadingIndicatorCell.m */; };
-		5702E6881B9F315E001D3E9E /* AssetCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 5702E6871B9F315E001D3E9E /* AssetCollection.m */; };
+		5702E6881B9F315E001D3E9E /* Feed.m in Sources */ = {isa = PBXBuildFile; fileRef = 5702E6871B9F315E001D3E9E /* Feed.m */; };
 		5702E68B1B9F34FB001D3E9E /* Asset.m in Sources */ = {isa = PBXBuildFile; fileRef = 5702E68A1B9F34FB001D3E9E /* Asset.m */; };
+		5702E68E1B9F79A4001D3E9E /* PhotoFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 5702E68D1B9F79A4001D3E9E /* PhotoFetcher.m */; };
+		5702E6911B9F903A001D3E9E /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 5702E6901B9F903A001D3E9E /* User.m */; };
+		5702E6941B9F90EE001D3E9E /* Warnings.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 5702E6931B9F90EE001D3E9E /* Warnings.xcconfig */; };
 		AD07C1122F75162B5E71A0A2 /* libPods-HipoInstagramClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A61EED7A51401105BA12796 /* libPods-HipoInstagramClient.a */; };
 /* End PBXBuildFile section */
 
@@ -52,10 +55,15 @@
 		5702E6811B9F2FB2001D3E9E /* InstagramCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstagramCell.m; sourceTree = "<group>"; };
 		5702E6831B9F3017001D3E9E /* LoadingIndicatorCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingIndicatorCell.h; sourceTree = "<group>"; };
 		5702E6841B9F3017001D3E9E /* LoadingIndicatorCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingIndicatorCell.m; sourceTree = "<group>"; };
-		5702E6861B9F315E001D3E9E /* AssetCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssetCollection.h; sourceTree = "<group>"; };
-		5702E6871B9F315E001D3E9E /* AssetCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssetCollection.m; sourceTree = "<group>"; };
+		5702E6861B9F315E001D3E9E /* Feed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Feed.h; sourceTree = "<group>"; };
+		5702E6871B9F315E001D3E9E /* Feed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Feed.m; sourceTree = "<group>"; };
 		5702E6891B9F34FB001D3E9E /* Asset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Asset.h; sourceTree = "<group>"; };
 		5702E68A1B9F34FB001D3E9E /* Asset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Asset.m; sourceTree = "<group>"; };
+		5702E68C1B9F79A4001D3E9E /* PhotoFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoFetcher.h; sourceTree = "<group>"; };
+		5702E68D1B9F79A4001D3E9E /* PhotoFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoFetcher.m; sourceTree = "<group>"; };
+		5702E68F1B9F903A001D3E9E /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		5702E6901B9F903A001D3E9E /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		5702E6931B9F90EE001D3E9E /* Warnings.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Warnings.xcconfig; sourceTree = "<group>"; };
 		BF43B69106D115D992781F46 /* Pods-HipoInstagramClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HipoInstagramClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-HipoInstagramClient/Pods-HipoInstagramClient.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -102,6 +110,7 @@
 		5702E6431B9C8BB6001D3E9E /* HipoInstagramClient */ = {
 			isa = PBXGroup;
 			children = (
+				5702E6921B9F90EE001D3E9E /* Config */,
 				5702E66D1B9DFD84001D3E9E /* Managers */,
 				5702E66A1B9DE06C001D3E9E /* Controllers */,
 				5702E66B1B9DE06C001D3E9E /* Views */,
@@ -172,10 +181,14 @@
 			children = (
 				5702E6741B9DFFFD001D3E9E /* BaseModel.h */,
 				5702E6751B9DFFFD001D3E9E /* BaseModel.m */,
-				5702E6861B9F315E001D3E9E /* AssetCollection.h */,
-				5702E6871B9F315E001D3E9E /* AssetCollection.m */,
+				5702E6861B9F315E001D3E9E /* Feed.h */,
+				5702E6871B9F315E001D3E9E /* Feed.m */,
 				5702E6891B9F34FB001D3E9E /* Asset.h */,
 				5702E68A1B9F34FB001D3E9E /* Asset.m */,
+				5702E68C1B9F79A4001D3E9E /* PhotoFetcher.h */,
+				5702E68D1B9F79A4001D3E9E /* PhotoFetcher.m */,
+				5702E68F1B9F903A001D3E9E /* User.h */,
+				5702E6901B9F903A001D3E9E /* User.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -187,6 +200,14 @@
 				5702E66F1B9DFF7F001D3E9E /* APIManager.m */,
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		5702E6921B9F90EE001D3E9E /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				5702E6931B9F90EE001D3E9E /* Warnings.xcconfig */,
+			);
+			path = Config;
 			sourceTree = "<group>";
 		};
 		5994AB6686F01F96B4D1425F /* Frameworks */ = {
@@ -256,6 +277,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5702E6941B9F90EE001D3E9E /* Warnings.xcconfig in Resources */,
 				5702E6551B9C8BB6001D3E9E /* LaunchScreen.xib in Resources */,
 				5702E6521B9C8BB6001D3E9E /* Images.xcassets in Resources */,
 			);
@@ -308,8 +330,10 @@
 				5702E6761B9DFFFD001D3E9E /* BaseModel.m in Sources */,
 				5702E67C1B9E112D001D3E9E /* LoginViewController.m in Sources */,
 				5702E68B1B9F34FB001D3E9E /* Asset.m in Sources */,
-				5702E6881B9F315E001D3E9E /* AssetCollection.m in Sources */,
+				5702E6881B9F315E001D3E9E /* Feed.m in Sources */,
+				5702E6911B9F903A001D3E9E /* User.m in Sources */,
 				5702E6851B9F3017001D3E9E /* LoadingIndicatorCell.m in Sources */,
+				5702E68E1B9F79A4001D3E9E /* PhotoFetcher.m in Sources */,
 				5702E6701B9DFF7F001D3E9E /* APIManager.m in Sources */,
 				5702E6821B9F2FB2001D3E9E /* InstagramCell.m in Sources */,
 				5702E6791B9E1122001D3E9E /* SplashViewController.m in Sources */,
@@ -412,7 +436,7 @@
 		};
 		5702E6651B9C8BB6001D3E9E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 45C5C7213524110673F03008 /* Pods-HipoInstagramClient.debug.xcconfig */;
+			baseConfigurationReference = 5702E6931B9F90EE001D3E9E /* Warnings.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = HipoInstagramClient/Info.plist;
