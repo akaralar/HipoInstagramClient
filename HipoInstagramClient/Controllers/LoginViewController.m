@@ -9,13 +9,20 @@
 #import "LoginViewController.h"
 #import "APIManager.h"
 
-#import <PureLayout/PureLayout.h>
+#import "FeedViewController.h"
+
 
 @import WebKit;
 
 @interface LoginViewController () <WKNavigationDelegate>
 
 @property (nonatomic) WKWebView *webView;
+
+- (NSString *)userIDFromURL:(NSURL *)url;
+- (NSString *)tokenFromURL:(NSURL *)url;
+
+- (void)proceedToFeed;
+
 @end
 
 @implementation LoginViewController
@@ -48,32 +55,58 @@
 {
     NSURL *url = navigationAction.request.URL;
     if ([url.host isEqualToString:kAuthRedirectURIHostName]) {
-
-        NSString *urlString = [url absoluteString];
-        NSRange tokenParam = [urlString rangeOfString:@"access_token="];
-        if (tokenParam.location != NSNotFound) {
-            NSString *token = [urlString substringFromIndex:NSMaxRange(tokenParam)];
-
-            // If there are more args, don't include them in the token:
-            NSRange endRange = [token rangeOfString:@"&"];
-            if (endRange.location != NSNotFound) {
-                token = [token substringToIndex:endRange.location];
-            }
-
-            NSString *userID = [token componentsSeparatedByString:@"."][0];
+        
+        NSString *userID = [self userIDFromURL:url];
+        NSString *token = [self tokenFromURL:url];
+        
+        if (userID && token) {
             [[APIManager sharedManager] saveUserID:userID];
             [[APIManager sharedManager] saveAccessToken:token];
 
             decisionHandler(WKNavigationActionPolicyCancel);
+            
+            [self proceedToFeed];
             return;
-        }
-        else {
-            // Handle the access rejected case here.
-            NSLog(@"rejected case, user denied request");
         }
     }
 
     decisionHandler(WKNavigationActionPolicyAllow);
+}
+
+- (NSString *)userIDFromURL:(NSURL *)url
+{
+    NSString *token = [self tokenFromURL:url];
+    if (!token) {
+        return nil;
+    }
+    
+    NSString *userID = [token componentsSeparatedByString:@"."][0];
+    return userID;
+}
+
+- (NSString *)tokenFromURL:(NSURL *)url
+{
+    NSString *urlString = [url absoluteString];
+    NSRange tokenParam = [urlString rangeOfString:@"access_token="];
+    if (tokenParam.location == NSNotFound) {
+        return nil;
+    }
+    
+    NSString *token = [urlString substringFromIndex:NSMaxRange(tokenParam)];
+    
+    // If there are more args, don't include them in the token:
+    NSRange endRange = [token rangeOfString:@"&"];
+    if (endRange.location != NSNotFound) {
+        token = [token substringToIndex:endRange.location];
+    }
+    
+    return token;
+}
+
+- (void)proceedToFeed
+{
+    FeedViewController *controller = [FeedViewController new];
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 @end
