@@ -38,8 +38,8 @@ typedef NS_ENUM(NSInteger, TableSection) { TableSectionAssets, TableSectionLoadi
 
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    self.tableView.estimatedRowHeight = 320;
-    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.estimatedRowHeight = 500;
+//    self.tableView.rowHeight = UITableViewAutomaticDimension;
 
     [self.tableView registerClass:[InstagramCell class]
            forCellReuseIdentifier:NSStringFromClass([InstagramCell class])];
@@ -58,13 +58,10 @@ typedef NS_ENUM(NSInteger, TableSection) { TableSectionAssets, TableSectionLoadi
     __weak typeof(self) weakSelf = self;
     [self.fetcher fetchUserFeedSuccess:^(Feed *feedAfterFetch) {
         __strong typeof(self) strongSelf = weakSelf;
-        
+
         [strongSelf.tableView reloadData];
 
-    } failure:^(NSError *error){
-
-        NSLog(@"error: %@", error);
-    }];
+    } failure:^(NSError *error) { NSLog(@"error: %@", error); }];
 }
 
 
@@ -72,7 +69,7 @@ typedef NS_ENUM(NSInteger, TableSection) { TableSectionAssets, TableSectionLoadi
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-//    return self.fetcher.currentFeed.isDisplayingLastPage ? 1 : 2;
+    //    return self.fetcher.currentFeed.isDisplayingLastPage ? 1 : 2;
     return 1;
 }
 
@@ -96,44 +93,46 @@ typedef NS_ENUM(NSInteger, TableSection) { TableSectionAssets, TableSectionLoadi
 {
     switch (indexPath.section) {
         case TableSectionAssets: {
-            
+
             NSString *identifier = NSStringFromClass([InstagramCell class]);
-            return [tableView dequeueReusableCellWithIdentifier:identifier];
+            InstagramCell *cell =[tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
+            [cell bindAsset:self.fetcher.currentFeed.assets[(NSUInteger)indexPath.row]];
+            return cell;
+//            return [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
         }
 
-        case TableSectionLoading:{
-            
+        case TableSectionLoading: {
+
             NSString *identifier = NSStringFromClass([LoadingIndicatorCell class]);
-            return [tableView dequeueReusableCellWithIdentifier:identifier];
+            return [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
         }
 
         default:
-            
+
             NSAssert(NO, @"shouldn't reach here");
             return nil;
             break;
     }
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView
+      willDisplayCell:(UITableViewCell *)cell
+    forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    switch (indexPath.section) {
-        case TableSectionAssets: {
-            InstagramCell *photoCell = (InstagramCell *)cell;
-            Asset *asset = self.fetcher.currentFeed.assets[(NSUInteger)indexPath.row];
-            [photoCell bindAsset:asset];
-        }
-            break;
-
-        case TableSectionLoading:
-            
-            break;
-
-        default:
-            break;
-    }
-
-
+//    switch (indexPath.section) {
+//        case TableSectionAssets: {
+//            InstagramCell *photoCell = (InstagramCell *)cell;
+//            Asset *asset = self.fetcher.currentFeed.assets[(NSUInteger)indexPath.row];
+//            [photoCell bindAsset:asset];
+//        } break;
+//
+//        case TableSectionLoading:
+//
+//            break;
+//
+//        default:
+//            break;
+//    }
 }
 
 @end

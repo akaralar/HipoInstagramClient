@@ -13,15 +13,14 @@
 
 #import <PureLayout/PureLayout.h>
 #import <AFNetworking/UIImageView+AFNetworking.h>
-
-static NSDateFormatter *kRelativeTimestampFormatter = nil;
+#import <DateTools/DateTools.h>
 
 @interface InstagramCell ()
 
 @property (nonatomic) UIView *headerContainer;
 @property (nonatomic) UILabel *loadingLabel;
 
-//@property (nonatomic) NSLayoutConstraint *aspectRatioConstraint;
+@property (nonatomic) NSLayoutConstraint *aspectRatioConstraint;
 
 - (void)setupConstraints;
 
@@ -41,16 +40,6 @@ static NSDateFormatter *kRelativeTimestampFormatter = nil;
 
     if (!self) {
         return nil;
-    }
-
-    if (!kRelativeTimestampFormatter) {
-
-        kRelativeTimestampFormatter = [[NSDateFormatter alloc] init];
-        kRelativeTimestampFormatter.timeStyle = NSDateFormatterShortStyle;
-//        kRelativeTimestampFormatter.dateStyle = NSDateFormatterMediumStyle;
-        kRelativeTimestampFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
-
-        kRelativeTimestampFormatter.doesRelativeDateFormatting = YES;
     }
 
     _headerContainer = [[UIView alloc] initForAutoLayout];
@@ -84,6 +73,7 @@ static NSDateFormatter *kRelativeTimestampFormatter = nil;
 {
     NSURLRequest *avatarRequest = [NSURLRequest requestWithURL:asset.owner.avatarURL];
     __weak typeof(self) weakSelf = self;
+    
     [self.avatar setImageWithURLRequest:avatarRequest
                        placeholderImage:nil
                                 success:^(NSURLRequest *__nonnull request,
@@ -101,7 +91,7 @@ static NSDateFormatter *kRelativeTimestampFormatter = nil;
                                 failure:nil];
 
     self.username.text = asset.owner.username;
-    self.relativeTimestamp.text = [kRelativeTimestampFormatter stringFromDate:asset.postDate];
+    self.relativeTimestamp.text = asset.postDate.timeAgoSinceNow;
 
     NSURLRequest *photoRequest = [NSURLRequest requestWithURL:asset.image.imageURL];
     [self.photo setImageWithURLRequest:photoRequest
@@ -119,28 +109,48 @@ static NSDateFormatter *kRelativeTimestampFormatter = nil;
                                                     }];
                                }
                                failure:nil];
+
+    
+    [self.aspectRatioConstraint autoRemove];
+    
+    [NSLayoutConstraint autoSetPriority:999 forConstraints:^{
+        self.aspectRatioConstraint = [self.photo autoMatchDimension:ALDimensionHeight
+                                                        toDimension:ALDimensionWidth
+                                                             ofView:self.photo
+                                                     withMultiplier:1.0 / [asset.image aspectRatio]];
+    }];
 }
 
 - (void)setupConstraints
 {
-    [_headerContainer autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero
-                                               excludingEdge:ALEdgeBottom];
+    [[_headerContainer autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero
+                                                excludingEdge:ALEdgeBottom]
+        autoIdentifyConstraints:@"header"];
 
-    [_avatar autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(5, 10, 5, 5)
-                                      excludingEdge:ALEdgeTrailing];
-    [_avatar autoSetDimensionsToSize:[InstagramCell avatarSize]];
+    [[_avatar autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(5, 10, 5, 5)
+                                       excludingEdge:ALEdgeTrailing]
+        autoIdentifyConstraints:@"avatar"];
+    [[_avatar autoSetDimensionsToSize:[InstagramCell avatarSize]]
+        autoIdentifyConstraints:@"avatar size"];
 
-    [_username autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
-    [_username autoPinEdge:ALEdgeLeading toEdge:ALEdgeTrailing ofView:_avatar withOffset:10];
+    [[_username autoAlignAxisToSuperviewAxis:ALAxisHorizontal] autoIdentify:@"username"];
+    [[_username autoPinEdge:ALEdgeLeading toEdge:ALEdgeTrailing ofView:_avatar withOffset:10]
+        autoIdentify:@"username"];
 
-    [_relativeTimestamp autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
-    [_relativeTimestamp autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:10];
+    [[_relativeTimestamp autoAlignAxisToSuperviewAxis:ALAxisHorizontal]
+        autoIdentify:@"relative timestamp"];
+    [[_relativeTimestamp autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:10]
+        autoIdentify:@"relative timestamp"];
 
-    [_photo autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:_headerContainer];
-    [_photo autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero excludingEdge:ALEdgeTop];
+    [[_photo autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero excludingEdge:ALEdgeTop]
+        autoIdentifyConstraints:@"photo 3 sides"];
+    [[_photo autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:_headerContainer]
+        autoIdentify:@"photo top"];
 
-    [_loadingLabel autoAlignAxis:ALAxisHorizontal toSameAxisOfView:_photo];
-    [_loadingLabel autoAlignAxis:ALAxisVertical toSameAxisOfView:_photo];
+    [[_loadingLabel autoAlignAxis:ALAxisHorizontal toSameAxisOfView:_photo]
+        autoIdentify:@"loading label"];
+    [[_loadingLabel autoAlignAxis:ALAxisVertical toSameAxisOfView:_photo]
+        autoIdentify:@"loading label"];
 }
 
 - (void)prepareForReuse

@@ -19,7 +19,7 @@
         @"owner" : @"user",
         @"identifier" : @"id",
         @"postDate" : @"created_time",
-        @"image" : @"images.standart_resolution"
+        @"image" : @"images.standard_resolution"
     };
 }
 

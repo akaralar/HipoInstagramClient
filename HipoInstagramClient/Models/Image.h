@@ -13,6 +13,9 @@
 @interface Image : BaseModel <MTLJSONSerializing>
 
 @property (nonatomic) NSURL *imageURL;
-@property (nonatomic) CGSize imageSize;
+@property (nonatomic) CGFloat width;
+@property (nonatomic) CGFloat height;
+
+- (CGFloat)aspectRatio; // width / height
 
 @end

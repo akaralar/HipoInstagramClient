@@ -14,7 +14,7 @@
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey
 {
-    return @{@"imageURL" : @"url"};
+    return @{ @"imageURL" : @"url", @"width" : @"width", @"height" : @"height" };
 }
 
 + (NSValueTransformer *)imageURLJSONTransformer
@@ -22,20 +22,9 @@
     return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
 }
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError *__autoreleasing *)error
+- (CGFloat)aspectRatio
 {
-    self = [super initWithDictionary:dictionaryValue error:error];
-    
-    if (!self) {
-        return nil;
-    }
-    
-    CGFloat width = [dictionaryValue[@"width"] floatValue];
-    CGFloat height = [dictionaryValue[@"height"] floatValue];
-    
-    _imageSize = CGSizeMake(width, height);
-    
-    return self;
+    return self.width / self.height;
 }
 
 @end
