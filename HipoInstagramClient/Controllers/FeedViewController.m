@@ -70,7 +70,8 @@ typedef NS_ENUM(NSInteger, TableSection) { TableSectionAssets, TableSectionLoadi
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return self.fetcher.currentFeed.isDisplayingLastPage ? 1 : 2;
+//    return self.fetcher.currentFeed.isDisplayingLastPage ? 1 : 2;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -91,7 +92,46 @@ typedef NS_ENUM(NSInteger, TableSection) { TableSectionAssets, TableSectionLoadi
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return nil;
+    switch (indexPath.section) {
+        case TableSectionAssets: {
+            
+            NSString *identifier = NSStringFromClass([InstagramCell class]);
+            return [tableView dequeueReusableCellWithIdentifier:identifier];
+        }
+
+        case TableSectionLoading:{
+            
+            NSString *identifier = NSStringFromClass([LoadingIndicatorCell class]);
+            return [tableView dequeueReusableCellWithIdentifier:identifier];
+        }
+
+        default:
+            
+            NSAssert(NO, @"shouldn't reach here");
+            return nil;
+            break;
+    }
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    switch (indexPath.section) {
+        case TableSectionAssets: {
+            InstagramCell *photoCell = (InstagramCell *)cell;
+            Asset *asset = self.fetcher.currentFeed.assets[(NSUInteger)indexPath.row];
+            [photoCell bindAsset:asset];
+        }
+            break;
+
+        case TableSectionLoading:
+            
+            break;
+
+        default:
+            break;
+    }
+
+
 }
 
 @end

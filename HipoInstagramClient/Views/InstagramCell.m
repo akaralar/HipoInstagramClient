@@ -7,8 +7,14 @@
 //
 
 #import "InstagramCell.h"
+#import "Asset.h"
+#import "User.h"
+#import "Image.h"
 
 #import <PureLayout/PureLayout.h>
+#import <AFNetworking/UIImageView+AFNetworking.h>
+
+static NSDateFormatter *kRelativeTimestampFormatter = nil;
 
 @interface InstagramCell ()
 
@@ -35,6 +41,16 @@
 
     if (!self) {
         return nil;
+    }
+
+    if (!kRelativeTimestampFormatter) {
+
+        kRelativeTimestampFormatter = [[NSDateFormatter alloc] init];
+        kRelativeTimestampFormatter.timeStyle = NSDateFormatterMediumStyle;
+        kRelativeTimestampFormatter.dateStyle = NSDateFormatterMediumStyle;
+        kRelativeTimestampFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
+
+        kRelativeTimestampFormatter.doesRelativeDateFormatting = YES;
     }
 
     _headerContainer = [[UIView alloc] initForAutoLayout];
@@ -64,6 +80,47 @@
     return self;
 }
 
+- (void)bindAsset:(Asset *)asset
+{
+    NSURLRequest *avatarRequest = [NSURLRequest requestWithURL:asset.owner.avatarURL];
+    __weak typeof(self) weakSelf = self;
+    [self.avatar setImageWithURLRequest:avatarRequest
+                       placeholderImage:nil
+                                success:^(NSURLRequest *__nonnull request,
+                                          NSHTTPURLResponse *__nonnull response,
+                                          UIImage *__nonnull image) {
+
+                                    __strong typeof(self) strongSelf = weakSelf;
+                                    strongSelf.avatar.image = image;
+                                    [UIView animateWithDuration:0.2
+                                                     animations:^{  //
+                                                         strongSelf.avatar.alpha = 1;
+                                                     }];
+
+                                }
+                                failure:nil];
+
+    self.username.text = asset.owner.username;
+    self.relativeTimestamp.text = [kRelativeTimestampFormatter stringFromDate:asset.postDate];
+
+    NSURLRequest *photoRequest = [NSURLRequest requestWithURL:asset.image.imageURL];
+    [self.photo setImageWithURLRequest:photoRequest
+                      placeholderImage:nil
+                               success:^(NSURLRequest *__nonnull request,
+                                         NSHTTPURLResponse *__nonnull response,
+                                         UIImage *__nonnull image) {
+
+                                   __strong typeof(self) strongSelf = weakSelf;
+                                   strongSelf.photo.image = image;
+                                   [UIView animateWithDuration:0.2
+                                                    animations:^{  //
+                                                        strongSelf.photo.alpha = 1;
+                                                        strongSelf.loadingLabel.hidden = YES;
+                                                    }];
+                               }
+                               failure:nil];
+}
+
 - (void)setupConstraints
 {
     [_headerContainer autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero
@@ -72,15 +129,15 @@
     [_avatar autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(5, 10, 5, 5)
                                       excludingEdge:ALEdgeTrailing];
     [_avatar autoSetDimensionsToSize:[InstagramCell avatarSize]];
-    
+
     [_username autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
-    
+
     [_relativeTimestamp autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
     [_relativeTimestamp autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:10];
-    
+
     [_photo autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:_headerContainer];
     [_photo autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero excludingEdge:ALEdgeTop];
-    
+
     [_loadingLabel autoAlignAxis:ALAxisHorizontal toSameAxisOfView:_photo];
     [_loadingLabel autoAlignAxis:ALAxisVertical toSameAxisOfView:_photo];
 }
@@ -88,8 +145,12 @@
 - (void)prepareForReuse
 {
     self.avatar.image = nil;
+    self.avatar.alpha = 0;
     self.photo.image = nil;
-    self.loadingLabel.alpha = 1;
+    self.photo.alpha = 0;
+
+    self.loadingLabel.hidden = NO;
+    self.loadingLabel.text = NSLocalizedString(@"LOADING", nil);
 }
 
 @end
