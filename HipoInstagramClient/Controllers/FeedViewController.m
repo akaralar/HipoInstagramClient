@@ -12,6 +12,8 @@
 
 #import "PhotoFetcher.h"
 #import "Feed.h"
+#import "FeedUpdate.h"
+#import "Asset.h"
 
 #import "InstagramCell.h"
 #import "LoadingIndicatorCell.h"
@@ -31,9 +33,11 @@ typedef NS_ENUM(NSInteger, TableSection) {  //
 @property (nonatomic) PhotoFetcher *fetcher;
 @property (nonatomic) UISearchController *searchController;
 
+@property (nonatomic) NSMutableDictionary *cachedHeights;
+
 - (void)didTriggerRefresh:(UIRefreshControl *)refreshControl;
 
-- (void)updateTableView;
+- (void)updateTableViewWithUpdate:(FeedUpdate *)update;
 - (void)handleError:(NSError *)error;
 
 @end
@@ -43,6 +47,8 @@ typedef NS_ENUM(NSInteger, TableSection) {  //
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.cachedHeights = [NSMutableDictionary dictionary];
 
     self.navigationItem.title = @"Instagram";
     self.navigationItem.hidesBackButton = YES;
@@ -54,7 +60,7 @@ typedef NS_ENUM(NSInteger, TableSection) {  //
     self.tableView.tableFooterView = [UIView new];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    self.tableView.estimatedRowHeight = 300;
+//    self.tableView.estimatedRowHeight = 500;
     self.tableView.backgroundColor =
         [UIColor colorWithRed:(CGFloat)0.93 green:(CGFloat)0.93 blue:(CGFloat)0.95 alpha:1];
 
@@ -83,25 +89,47 @@ typedef NS_ENUM(NSInteger, TableSection) {  //
                    44.0);
     self.tableView.tableHeaderView = self.searchController.searchBar;
     self.definesPresentationContext = YES;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-
+    
     __weak typeof(self) weakSelf = self;
-    [self.fetcher fetchUserFeedSuccess:^(Feed *feedAfterFetch) {
+    [self.fetcher fetchUserFeedSuccess:^(FeedUpdate *update) {
         __strong typeof(self) strongSelf = weakSelf;
-        [strongSelf updateTableView];
+        [strongSelf updateTableViewWithUpdate:update];
     } failure:^(NSError *error) {  //
         __strong typeof(self) strongSelf = weakSelf;
         [strongSelf handleError:error];
     }];
 }
 
-- (void)updateTableView
+- (void)updateTableViewWithUpdate:(FeedUpdate *)update
 {
-    [self.tableView reloadData];
+    [self.tableView beginUpdates];
+    if (update.indexPathsToDelete.count > 0) {
+        [self.tableView deleteRowsAtIndexPaths:update.indexPathsToDelete
+                              withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    //
+    if (update.indexPathsToInsert.count > 0) {
+        [self.tableView insertRowsAtIndexPaths:update.indexPathsToInsert
+                              withRowAnimation:UITableViewRowAnimationTop];
+    }
+    //
+    if (update.indexPathsToReload.count > 0) {
+        [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+        [self.tableView reloadRowsAtIndexPaths:update.indexPathsToReload
+                              withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    //
+    if (update.sectionsToDelete.count > 0) {
+        [self.tableView deleteSections:update.sectionsToDelete
+                      withRowAnimation:UITableViewRowAnimationFade];
+    }
+    //
+    if (update.sectionsToInsert.count > 0) {
+        [self.tableView insertSections:update.sectionsToInsert
+                      withRowAnimation:UITableViewRowAnimationBottom];
+    }
+
+    [self.tableView endUpdates];
 }
 
 - (void)handleError:(NSError *)error
@@ -125,9 +153,9 @@ typedef NS_ENUM(NSInteger, TableSection) {  //
 - (void)didTriggerRefresh:(UIRefreshControl *)refreshControl
 {
     __weak typeof(self) weakSelf = self;
-    [self.fetcher refreshFeedSuccess:^(Feed *feedAfterFetch) {
+    [self.fetcher refreshFeedSuccess:^(FeedUpdate *update) {
         __strong typeof(self) strongSelf = weakSelf;
-        [strongSelf updateTableView];
+        [strongSelf updateTableViewWithUpdate:update];
         [refreshControl endRefreshing];
     } failure:^(NSError *error) {  //
         __strong typeof(self) strongSelf = weakSelf;
@@ -157,6 +185,19 @@ typedef NS_ENUM(NSInteger, TableSection) {  //
     }
 }
 
+- (CGFloat)tableView:(UITableView *)tableView
+    estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Asset *asset = self.fetcher.currentFeed.assets[(NSUInteger)indexPath.row];
+    NSNumber *height = self.cachedHeights[asset.identifier];
+    
+    if (!height) {
+        return 300;
+    }
+    else {
+        return height.floatValue;
+    }
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -167,8 +208,10 @@ typedef NS_ENUM(NSInteger, TableSection) {  //
             NSString *identifier = NSStringFromClass([InstagramCell class]);
             InstagramCell *cell =
                 [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
-            [cell bindAsset:self.fetcher.currentFeed.assets[(NSUInteger)indexPath.row]];
+            Asset *asset = self.fetcher.currentFeed.assets[(NSUInteger)indexPath.row];
+            [cell bindAsset:asset];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
             return cell;
         }
 
@@ -193,12 +236,22 @@ typedef NS_ENUM(NSInteger, TableSection) {  //
       willDisplayCell:(UITableViewCell *)cell
     forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == (NSInteger)self.fetcher.currentFeed.assets.count - 5) {
+    // to prevent jumps while using self sizing cells, we cache the height of each cell and return that in estimated row height delegate method
+//    [cell layoutIfNeeded];
+//    CGFloat height =
+//    [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
+    
+    if (indexPath.section == TableSectionAssets) {
+        Asset *asset = self.fetcher.currentFeed.assets[(NSUInteger)indexPath.row];
+        [self.cachedHeights setObject:@(CGRectGetHeight(cell.frame)) forKey:asset.identifier];
+    }
+
+    if (indexPath.row == (NSInteger)self.fetcher.currentFeed.assets.count - 1) {
 
         __weak typeof(self) weakSelf = self;
-        [self.fetcher fetchNextPageSuccess:^(Feed *feedAfterFetch) {  //
+        [self.fetcher fetchNextPageSuccess:^(FeedUpdate *update) {  //
             __strong typeof(self) strongSelf = weakSelf;
-            [strongSelf updateTableView];
+            [strongSelf updateTableViewWithUpdate:update];
         } failure:^(NSError *error) {  //
             __strong typeof(self) strongSelf = weakSelf;
             [strongSelf handleError:error];
@@ -211,29 +264,24 @@ typedef NS_ENUM(NSInteger, TableSection) {  //
     if (indexPath.section == TableSectionLoading) {
         return;
     }
-    
+
     InstagramCell *cell = (InstagramCell *)[tableView cellForRowAtIndexPath:indexPath];
     ImageViewController *controller = [[ImageViewController alloc] initWithImage:cell.photo.image];
-    
+
     [self.navigationController pushViewController:controller animated:YES];
 }
 
 #pragma mark - UISearchResultsUpdating
-
-- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
-{
-    
-}
 
 #pragma mark - UISearchControllerDelegate
 
 - (void)willDismissSearchController:(UISearchController *)searchController
 {
     __weak typeof(self) weakSelf = self;
-    [self.fetcher fetchUserFeedSuccess:^(Feed *feedAfterFetch) {  //
+    [self.fetcher fetchUserFeedSuccess:^(FeedUpdate *update) {  //
         __strong typeof(self) strongSelf = weakSelf;
 
-        [strongSelf updateTableView];
+        [strongSelf updateTableViewWithUpdate:update];
     } failure:^(NSError *error) {  //
         __strong typeof(self) strongSelf = weakSelf;
         [strongSelf handleError:error];
@@ -250,10 +298,10 @@ typedef NS_ENUM(NSInteger, TableSection) {  //
     query = [query stringByReplacingOccurrencesOfString:@" " withString:@""];
     __weak typeof(self) weakSelf = self;
     [self.fetcher fetchItemsWithTag:query
-        success:^(Feed *feedAfterFetch) {  //
+        success:^(FeedUpdate *update) {  //
             __strong typeof(self) strongSelf = weakSelf;
 
-            [strongSelf updateTableView];
+            [strongSelf updateTableViewWithUpdate:update];
         }
         failure:^(NSError *error) {  //
             __strong typeof(self) strongSelf = weakSelf;

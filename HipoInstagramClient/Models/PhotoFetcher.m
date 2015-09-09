@@ -13,6 +13,7 @@
 
 // Models
 #import "Feed.h"
+#import "FeedUpdate.h"
 #import "FetchResult.h"
 #import "PaginationCursor.h"
 
@@ -42,8 +43,10 @@ typedef NS_ENUM(NSInteger, FetchMode) {  //
     SuccessBlock modifiedSuccess = ^(NSURLSessionDataTask *task, FetchResult *result) {
         __strong typeof(self) strongSelf = weakSelf;
         strongSelf.lastResult = result;
+        Feed *oldFeed = strongSelf.currentFeed;
         strongSelf.currentFeed = [[Feed alloc] initWithFetchResult:result];
-        success(strongSelf.currentFeed);
+        FeedUpdate *update = [[FeedUpdate alloc] initWithFromFeed:oldFeed toFeed:strongSelf.currentFeed];
+        success(update);
     };
 
     FailureBlock modifiedFailure = ^(NSURLSessionDataTask *task, NSError *error) {  //
@@ -71,8 +74,11 @@ typedef NS_ENUM(NSInteger, FetchMode) {  //
     SuccessBlock modifiedSuccess = ^(NSURLSessionDataTask *task, FetchResult *result) {
         __strong typeof(self) strongSelf = weakSelf;
         strongSelf.lastResult = result;
+        Feed *oldFeed = self.currentFeed;
         strongSelf.currentFeed = [[Feed alloc] initWithFetchResult:result];
-        success(strongSelf.currentFeed);
+        FeedUpdate *update =
+            [[FeedUpdate alloc] initWithFromFeed:oldFeed toFeed:strongSelf.currentFeed];
+        success(update);
     };
 
     FailureBlock modifiedFailure = ^(NSURLSessionDataTask *task, NSError *error) {  //
@@ -95,8 +101,10 @@ typedef NS_ENUM(NSInteger, FetchMode) {  //
     SuccessBlock modifiedSuccess = ^(NSURLSessionDataTask *task, FetchResult *result) {
         __strong typeof(self) strongSelf = weakSelf;
         strongSelf.lastResult = result;
+        Feed *oldFeed = [self.currentFeed copy];
         [strongSelf.currentFeed loadNewPageWithFetchResult:result];
-        success(strongSelf.currentFeed);
+        FeedUpdate *update = [[FeedUpdate alloc] initWithFromFeed:oldFeed toFeed:strongSelf.currentFeed];
+        success(update);
     };
 
     FailureBlock modifiedFailure = ^(NSURLSessionDataTask *task, NSError *error) {  //

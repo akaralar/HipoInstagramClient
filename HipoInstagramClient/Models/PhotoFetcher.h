@@ -11,7 +11,7 @@
 @class Feed;
 @class FeedUpdate;
 
-typedef void (^FetchSuccessBlock)(Feed *feedAfterFetch);
+typedef void (^FetchSuccessBlock)(FeedUpdate *feedUpdate);
 typedef void (^FetchFailureBlock)(NSError *error);
 
 @interface PhotoFetcher : BaseModel
