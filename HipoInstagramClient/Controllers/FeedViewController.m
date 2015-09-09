@@ -25,7 +25,7 @@ typedef NS_ENUM(NSInteger, TableSection) {  //
 
 @interface FeedViewController () <UITableViewDataSource,
                                   UITableViewDelegate,
-                                  UISearchResultsUpdating,
+//                                  UISearchResultsUpdating,
                                   UISearchBarDelegate,
                                   UISearchControllerDelegate>
 
@@ -79,7 +79,7 @@ typedef NS_ENUM(NSInteger, TableSection) {  //
     self.fetcher = [PhotoFetcher new];
 
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
-    self.searchController.searchResultsUpdater = self;
+//    self.searchController.searchResultsUpdater = self;
     self.searchController.searchBar.delegate = self;
     self.searchController.delegate = self;
     self.searchController.searchBar.frame =
@@ -246,7 +246,7 @@ typedef NS_ENUM(NSInteger, TableSection) {  //
         [self.cachedHeights setObject:@(CGRectGetHeight(cell.frame)) forKey:asset.identifier];
     }
 
-    if (indexPath.row == (NSInteger)self.fetcher.currentFeed.assets.count - 1) {
+    if (indexPath.row == (NSInteger)self.fetcher.currentFeed.assets.count - 5) {
 
         __weak typeof(self) weakSelf = self;
         [self.fetcher fetchNextPageSuccess:^(FeedUpdate *update) {  //
