@@ -46,14 +46,17 @@
     [self.contentView addSubview:_headerContainer];
 
     _avatar = [[UIImageView alloc] initForAutoLayout];
-    _avatar.layer.cornerRadius = [InstagramCell avatarSize].height / 2.0;
+    _avatar.layer.cornerRadius = [InstagramCell avatarSize].height / (CGFloat)2.0;
     _avatar.clipsToBounds = YES;
     [_headerContainer addSubview:_avatar];
 
     _username = [[UILabel alloc] initForAutoLayout];
+    _username.adjustsFontSizeToFitWidth = YES;
+    _username.minimumScaleFactor = 0.5;
     [_headerContainer addSubview:_username];
 
     _relativeTimestamp = [[UILabel alloc] initForAutoLayout];
+    _relativeTimestamp.font = [UIFont systemFontOfSize:11];
     [_headerContainer addSubview:_relativeTimestamp];
 
     _loadingLabel = [[UILabel alloc] initForAutoLayout];
@@ -117,7 +120,7 @@
         self.aspectRatioConstraint = [self.photo autoMatchDimension:ALDimensionHeight
                                                         toDimension:ALDimensionWidth
                                                              ofView:self.photo
-                                                     withMultiplier:1.0 / [asset.image aspectRatio]];
+                                                     withMultiplier:(CGFloat)1.0 / [asset.image aspectRatio]];
     }];
 }
 
@@ -136,6 +139,7 @@
     [[_username autoAlignAxisToSuperviewAxis:ALAxisHorizontal] autoIdentify:@"username"];
     [[_username autoPinEdge:ALEdgeLeading toEdge:ALEdgeTrailing ofView:_avatar withOffset:10]
         autoIdentify:@"username"];
+    [_username autoConstrainAttribute:ALAttributeTrailing toAttribute:ALAttributeLeading ofView:_relativeTimestamp withMultiplier:1 relation:NSLayoutRelationLessThanOrEqual];
 
     [[_relativeTimestamp autoAlignAxisToSuperviewAxis:ALAxisHorizontal]
         autoIdentify:@"relative timestamp"];
