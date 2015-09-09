@@ -8,6 +8,8 @@
 
 #import "FeedViewController.h"
 
+#import "ImageViewController.h"
+
 #import "PhotoFetcher.h"
 #import "Feed.h"
 
@@ -209,15 +211,18 @@ typedef NS_ENUM(NSInteger, TableSection) {  //
     if (indexPath.section == TableSectionLoading) {
         return;
     }
-
-    //    NSLog(@"did select");
+    
+    InstagramCell *cell = (InstagramCell *)[tableView cellForRowAtIndexPath:indexPath];
+    ImageViewController *controller = [[ImageViewController alloc] initWithImage:cell.photo.image];
+    
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 #pragma mark - UISearchResultsUpdating
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
-    //    NSLog(@"search");
+    
 }
 
 #pragma mark - UISearchControllerDelegate
