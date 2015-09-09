@@ -25,7 +25,6 @@ typedef NS_ENUM(NSInteger, TableSection) {  //
 
 @interface FeedViewController () <UITableViewDataSource,
                                   UITableViewDelegate,
-//                                  UISearchResultsUpdating,
                                   UISearchBarDelegate,
                                   UISearchControllerDelegate>
 
@@ -60,7 +59,6 @@ typedef NS_ENUM(NSInteger, TableSection) {  //
     self.tableView.tableFooterView = [UIView new];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-//    self.tableView.estimatedRowHeight = 500;
     self.tableView.backgroundColor =
         [UIColor colorWithRed:(CGFloat)0.93 green:(CGFloat)0.93 blue:(CGFloat)0.95 alpha:1];
 
@@ -79,7 +77,6 @@ typedef NS_ENUM(NSInteger, TableSection) {  //
     self.fetcher = [PhotoFetcher new];
 
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
-//    self.searchController.searchResultsUpdater = self;
     self.searchController.searchBar.delegate = self;
     self.searchController.delegate = self;
     self.searchController.searchBar.frame =
@@ -236,12 +233,13 @@ typedef NS_ENUM(NSInteger, TableSection) {  //
       willDisplayCell:(UITableViewCell *)cell
     forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // to prevent jumps while using self sizing cells, we cache the height of each cell and return that in estimated row height delegate method
-//    [cell layoutIfNeeded];
-//    CGFloat height =
-//    [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
     
     if (indexPath.section == TableSectionAssets) {
+        // to prevent jumps while using self sizing cells, we cache the height of each cell and return that in estimated row height delegate method
+        //    [cell layoutIfNeeded];
+        //    CGFloat height =
+        //    [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
+
         Asset *asset = self.fetcher.currentFeed.assets[(NSUInteger)indexPath.row];
         [self.cachedHeights setObject:@(CGRectGetHeight(cell.frame)) forKey:asset.identifier];
     }
