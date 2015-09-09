@@ -70,7 +70,7 @@ typedef NS_ENUM(NSInteger, TableSection) { TableSectionAssets, TableSectionLoadi
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-        return self.fetcher.currentFeed.isDisplayingLastPage ? 1 : 2;
+    return self.fetcher.currentFeed.isDisplayingLastPage ? 1 : 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -98,13 +98,17 @@ typedef NS_ENUM(NSInteger, TableSection) { TableSectionAssets, TableSectionLoadi
             InstagramCell *cell =
                 [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
             [cell bindAsset:self.fetcher.currentFeed.assets[(NSUInteger)indexPath.row]];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             return cell;
         }
 
         case TableSectionLoading: {
 
             NSString *identifier = NSStringFromClass([LoadingIndicatorCell class]);
-            return [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
+            LoadingIndicatorCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier  //
+                                                                         forIndexPath:indexPath];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            return cell;
         }
 
         default:
@@ -120,14 +124,19 @@ typedef NS_ENUM(NSInteger, TableSection) { TableSectionAssets, TableSectionLoadi
     forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == (NSInteger)self.fetcher.currentFeed.assets.count - 5) {
-        
-        [self.fetcher fetchNextPageSuccess:^(Feed *feedAfterFetch) {
-            
-            [self.tableView reloadData];
-        } failure:^(NSError *error) {
-            NSLog(@"error: %@", error);
-        }];
+
+        [self.fetcher fetchNextPageSuccess:^(Feed *feedAfterFetch) { [self.tableView reloadData]; }
+            failure:^(NSError *error) { NSLog(@"error: %@", error); }];
     }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == TableSectionLoading) {
+        return;
+    }
+
+    NSLog(@"did select");
 }
 
 @end
