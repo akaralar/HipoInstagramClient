@@ -8,6 +8,18 @@
 
 #import "BaseModel.h"
 
+@class Feed;
+
 @interface FeedUpdate : BaseModel
+
+@property (nonatomic, readonly) NSArray *indexPathsToDelete;
+@property (nonatomic, readonly) NSArray *indexPathsToInsert;
+@property (nonatomic, readonly) NSArray *indexPathsToReload;
+@property (nonatomic, readonly) NSIndexSet *sectionsToDelete;
+@property (nonatomic, readonly) NSIndexSet *sectionsToInsert;
+
+@property (nonatomic, readonly, getter=isLoadingIndicatorVisible) BOOL loadingIndicatorVisible;
+
+- (instancetype)initWithFromFeed:(Feed *)fromFeed toFeed:(Feed *)toFeed;
 
 @end

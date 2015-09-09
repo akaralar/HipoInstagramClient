@@ -9,6 +9,7 @@
 #import "BaseModel.h"
 
 @class Feed;
+@class FeedUpdate;
 
 typedef void (^FetchSuccessBlock)(Feed *feedAfterFetch);
 typedef void (^FetchFailureBlock)(NSError *error);
