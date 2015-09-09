@@ -18,8 +18,6 @@
 @property (nonatomic, readonly) NSIndexSet *sectionsToDelete;
 @property (nonatomic, readonly) NSIndexSet *sectionsToInsert;
 
-@property (nonatomic, readonly, getter=isLoadingIndicatorVisible) BOOL loadingIndicatorVisible;
-
 - (instancetype)initWithFromFeed:(Feed *)fromFeed toFeed:(Feed *)toFeed;
 
 @end

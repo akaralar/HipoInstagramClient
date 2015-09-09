@@ -236,10 +236,6 @@ typedef NS_ENUM(NSInteger, TableSection) {  //
     if (indexPath.section == TableSectionAssets) {
         // to prevent jumps while using self sizing cells, we cache the height of each cell and
         // return that in estimated row height delegate method
-        //    [cell layoutIfNeeded];
-        //    CGFloat height =
-        //    [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
-
         Asset *asset = self.fetcher.currentFeed.assets[(NSUInteger)indexPath.row];
         [self.cachedHeights setObject:@(CGRectGetHeight(cell.frame)) forKey:asset.identifier];
     }
@@ -268,8 +264,6 @@ typedef NS_ENUM(NSInteger, TableSection) {  //
 
     [self.navigationController pushViewController:controller animated:YES];
 }
-
-#pragma mark - UISearchResultsUpdating
 
 #pragma mark - UISearchControllerDelegate
 
