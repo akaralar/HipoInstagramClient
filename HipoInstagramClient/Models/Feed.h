@@ -8,14 +8,16 @@
 
 #import "BaseModel.h"
 
+@class FetchResult;
+
 @interface Feed : BaseModel
 
 @property (nonatomic, readonly) NSArray *assets;
 @property (nonatomic, readonly, getter=isDisplayingLastPage) BOOL displayingLastPage;
 
-- (instancetype)initWithAssets:(NSArray *)assets;
-- (void)refreshWithAssets:(NSArray *)assets;
-- (void)loadNewPageWithAssets:(NSArray *)assets;
+- (instancetype)initWithFetchResult:(FetchResult *)fetchResult;
+- (void)refreshWithFetchResult:(FetchResult *)fetchResult;
+- (void)loadNewPageWithFetchResult:(FetchResult *)fetchResult;
 
 
 @end

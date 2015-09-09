@@ -22,6 +22,7 @@ static NSString *const kClientSecret = @"78a207a5f87f4055a641ef9ff1673546";
 static NSString *const kAuthRedirectURI = @"http://localhost:8888/";
 
 static NSString *const kUserFeedPath = @"users/self/feed";
+static NSString *const kSearchByTagPath = @"tags/%@/media/recent";
 
 static NSString *const kTokenParameterKey = @"access_token";
 static NSString *const kMaxIDParameterKey = @"max_id";
@@ -85,17 +86,17 @@ static NSString *const kItemsPerPageParameterKey = @"count";
     self.userID = userID;
 }
 
-- (void)fetchFeedPhotosAfterMediaWithID:(NSString *)mediaID
-                           itemsPerPage:(NSNumber *)itemsPerPage
-                                success:(SuccessBlock)success
-                                failure:(FailureBlock)failure
+- (void)fetchFeedPhotosAfterItemWithID:(NSString *)itemID
+                          itemsPerPage:(NSNumber *)itemsPerPage
+                               success:(SuccessBlock)success
+                               failure:(FailureBlock)failure
 
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:self.accessToken forKey:kTokenParameterKey];
 
-    if (mediaID) {
-        [params setObject:mediaID forKey:kMaxIDParameterKey];
+    if (itemID) {
+        [params setObject:itemID forKey:kMaxIDParameterKey];
     }
 
     if (itemsPerPage) {
@@ -114,6 +115,35 @@ static NSString *const kItemsPerPageParameterKey = @"count";
     [self GET:kUserFeedPath parameters:params success:modifiedSuccess failure:failure];
 }
 
+- (void)fetchPhotosWithTag:(NSString *)tag
+           afterItemWithID:(NSString *)itemID
+              itemsPerPage:(NSNumber *)itemsPerPage
+                   success:(SuccessBlock)success
+                   failure:(FailureBlock)failure
+{
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:self.accessToken forKey:kTokenParameterKey];
+
+    if (itemID) {
+        [params setObject:itemID forKey:kMaxIDParameterKey];
+    }
+
+    if (itemsPerPage) {
+        [params setObject:itemsPerPage forKey:kItemsPerPageParameterKey];
+    }
+
+    AFSuccessBlock modifiedSuccess =
+        ^(NSURLSessionDataTask *task, NSDictionary *responseObject) {  //
+
+        FetchResult *result = [MTLJSONAdapter modelOfClass:[FetchResult class]
+                                        fromJSONDictionary:responseObject
+                                                     error:nil];
+        success(task, result);
+    };
+
+    NSString *path = [NSString stringWithFormat:kSearchByTagPath, tag];
+    [self GET:path parameters:params success:modifiedSuccess failure:failure];
+}
 #pragma mark - Internal Helpers
 
 + (NSURLSessionConfiguration *)defaultConfiguration

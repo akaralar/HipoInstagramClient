@@ -18,6 +18,12 @@ typedef void (^FetchFailureBlock)(NSError *error);
 @property (nonatomic, readonly) Feed *currentFeed;
 
 - (void)fetchUserFeedSuccess:(FetchSuccessBlock)success failure:(FetchFailureBlock)failure;
+- (void)fetchItemsWithTag:(NSString *)tag
+                  success:(FetchSuccessBlock)success
+                  failure:(FetchFailureBlock)failure;
+
 - (void)fetchNextPageSuccess:(FetchSuccessBlock)success failure:(FetchFailureBlock)failure;
+
+- (void)refreshFeedSuccess:(FetchSuccessBlock)success failure:(FetchFailureBlock)failure;
 
 @end

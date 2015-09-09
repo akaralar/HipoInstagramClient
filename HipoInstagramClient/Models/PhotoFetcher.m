@@ -18,9 +18,16 @@
 
 static const NSInteger kItemsPerPage = 10;
 
+typedef NS_ENUM(NSInteger, FetchMode) {  //
+    FetchModeFeed = 1,
+    FetchModeSearchByTag
+};
+
 @interface PhotoFetcher ()
 
+@property (nonatomic) FetchMode fetchMode;
 @property (nonatomic, readwrite) Feed *currentFeed;
+@property (nonatomic) NSString *tagToSearch;
 @property (nonatomic) FetchResult *lastResult;
 
 @end
@@ -29,40 +36,113 @@ static const NSInteger kItemsPerPage = 10;
 
 - (void)fetchUserFeedSuccess:(FetchSuccessBlock)success failure:(FetchFailureBlock)failure
 {
+    self.fetchMode = FetchModeFeed;
+
     __weak typeof(self) weakSelf = self;
     SuccessBlock modifiedSuccess = ^(NSURLSessionDataTask *task, FetchResult *result) {
         __strong typeof(self) strongSelf = weakSelf;
         strongSelf.lastResult = result;
-        strongSelf.currentFeed = [[Feed alloc] initWithAssets:result.assets];
+        strongSelf.currentFeed = [[Feed alloc] initWithFetchResult:result];
         success(strongSelf.currentFeed);
     };
 
     FailureBlock modifiedFailure = ^(NSURLSessionDataTask *task, NSError *error) {  //
         failure(error);
     };
-    [[APIManager sharedManager] fetchFeedPhotosAfterMediaWithID:nil
-                                                   itemsPerPage:@(kItemsPerPage)
-                                                        success:modifiedSuccess
-                                                        failure:modifiedFailure];
+
+    [[APIManager sharedManager] fetchFeedPhotosAfterItemWithID:nil
+                                                  itemsPerPage:@(kItemsPerPage)
+                                                       success:modifiedSuccess
+                                                       failure:modifiedFailure];
+}
+
+- (void)fetchItemsWithTag:(NSString *)tag
+                  success:(FetchSuccessBlock)success
+                  failure:(FetchFailureBlock)failure
+{
+    if (!tag || [tag isEqualToString:@""]) {
+        return;
+    }
+
+    self.fetchMode = FetchModeSearchByTag;
+    self.tagToSearch = tag;
+
+    __weak typeof(self) weakSelf = self;
+    SuccessBlock modifiedSuccess = ^(NSURLSessionDataTask *task, FetchResult *result) {
+        __strong typeof(self) strongSelf = weakSelf;
+        strongSelf.lastResult = result;
+        strongSelf.currentFeed = [[Feed alloc] initWithFetchResult:result];
+        success(strongSelf.currentFeed);
+    };
+
+    FailureBlock modifiedFailure = ^(NSURLSessionDataTask *task, NSError *error) {  //
+        failure(error);
+    };
+
+    [[APIManager sharedManager] fetchPhotosWithTag:tag
+                                   afterItemWithID:nil
+                                      itemsPerPage:@(kItemsPerPage)
+                                           success:modifiedSuccess
+                                           failure:modifiedFailure];
 }
 
 - (void)fetchNextPageSuccess:(FetchSuccessBlock)success failure:(FetchFailureBlock)failure
 {
+    if (self.currentFeed.isDisplayingLastPage) {
+        return;
+    }
     __weak typeof(self) weakSelf = self;
     SuccessBlock modifiedSuccess = ^(NSURLSessionDataTask *task, FetchResult *result) {
         __strong typeof(self) strongSelf = weakSelf;
         strongSelf.lastResult = result;
-        [strongSelf.currentFeed loadNewPageWithAssets:result.assets];
+        [strongSelf.currentFeed loadNewPageWithFetchResult:result];
         success(strongSelf.currentFeed);
     };
 
     FailureBlock modifiedFailure = ^(NSURLSessionDataTask *task, NSError *error) {  //
         failure(error);
     };
-    
-    [[APIManager sharedManager] fetchFeedPhotosAfterMediaWithID:self.lastResult.cursor.lastItemID
-                                                   itemsPerPage:@(kItemsPerPage)
-                                                        success:modifiedSuccess
-                                                        failure:modifiedFailure];
+
+    switch (self.fetchMode) {
+        case FetchModeFeed:
+
+            [[APIManager sharedManager]
+                fetchFeedPhotosAfterItemWithID:self.lastResult.cursor.lastItemID
+                                  itemsPerPage:@(kItemsPerPage)
+                                       success:modifiedSuccess
+                                       failure:modifiedFailure];
+            break;
+
+        case FetchModeSearchByTag:
+
+            [[APIManager sharedManager] fetchPhotosWithTag:self.tagToSearch
+                                           afterItemWithID:self.lastResult.cursor.lastItemID
+                                              itemsPerPage:@(kItemsPerPage)
+                                                   success:modifiedSuccess
+                                                   failure:modifiedFailure];
+            break;
+
+        default:
+            break;
+    }
+}
+
+- (void)refreshFeedSuccess:(FetchSuccessBlock)success failure:(FetchFailureBlock)failure
+{
+    switch (self.fetchMode) {
+        case FetchModeFeed:
+
+            [self fetchUserFeedSuccess:success failure:failure];
+
+            break;
+        case FetchModeSearchByTag:
+
+            [self fetchItemsWithTag:self.tagToSearch success:success failure:failure];
+            break;
+
+
+        default:
+            break;
+    }
 }
 @end

@@ -22,9 +22,15 @@ typedef void (^FailureBlock)(NSURLSessionDataTask *task, NSError *error);
 - (void)saveUserID:(NSString *)userID;
 - (void)saveAccessToken:(NSString *)accessToken;
 
-- (void)fetchFeedPhotosAfterMediaWithID:(NSString *)mediaID
+- (void)fetchFeedPhotosAfterItemWithID:(NSString *)itemID
                            itemsPerPage:(NSNumber *)itemsPerPage
                                 success:(SuccessBlock)success
                                 failure:(FailureBlock)failure;
+
+- (void)fetchPhotosWithTag:(NSString *)tag
+           afterItemWithID:(NSString *)itemID
+              itemsPerPage:(NSNumber *)itemsPerPage
+                   success:(SuccessBlock)success
+                   failure:(FailureBlock)failure;
 
 @end

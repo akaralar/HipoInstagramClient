@@ -94,7 +94,7 @@
                                 failure:nil];
 
     self.username.text = asset.owner.username;
-    self.relativeTimestamp.text = asset.postDate.timeAgoSinceNow;
+    self.relativeTimestamp.text = [asset.postDate.timeAgoSinceNow lowercaseString];
 
     NSURLRequest *photoRequest = [NSURLRequest requestWithURL:asset.image.imageURL];
     [self.photo setImageWithURLRequest:photoRequest

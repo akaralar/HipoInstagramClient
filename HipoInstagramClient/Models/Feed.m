@@ -8,6 +8,9 @@
 
 #import "Feed.h"
 
+#import "FetchResult.h"
+#import "PaginationCursor.h"
+
 @interface Feed ()
 
 @property (nonatomic, readwrite) NSArray *assets;
@@ -17,7 +20,7 @@
 
 @implementation Feed
 
-- (instancetype)initWithAssets:(NSArray *)assets
+- (instancetype)initWithFetchResult:(FetchResult *)fetchResult
 {
     self = [super init];
     
@@ -25,18 +28,20 @@
         return nil;
     }
     
-    [self refreshWithAssets:assets];
+    [self refreshWithFetchResult:fetchResult];
     
     return self;
 }
 
-- (void)refreshWithAssets:(NSArray *)assets
+- (void)refreshWithFetchResult:(FetchResult *)fetchResult
 {
-    self.assets = [assets copy];
+    self.assets = [fetchResult.assets copy];
+    self.displayingLastPage = (fetchResult.cursor.lastItemID == nil);
 }
 
-- (void)loadNewPageWithAssets:(NSArray *)assets
+- (void)loadNewPageWithFetchResult:(FetchResult *)fetchResult
 {
-    self.assets = [self.assets arrayByAddingObjectsFromArray:assets];
+    self.assets = [self.assets arrayByAddingObjectsFromArray:fetchResult.assets];
+    self.displayingLastPage = (fetchResult.cursor.lastItemID == nil);
 }
 @end

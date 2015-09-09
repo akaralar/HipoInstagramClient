@@ -22,13 +22,17 @@ typedef NS_ENUM(NSInteger, TableSection) {  //
 @interface FeedViewController () <UITableViewDataSource,
                                   UITableViewDelegate,
                                   UISearchResultsUpdating,
-                                  UISearchBarDelegate>
+                                  UISearchBarDelegate,
+                                  UISearchControllerDelegate>
 
 @property (nonatomic) UITableView *tableView;
 @property (nonatomic) PhotoFetcher *fetcher;
 @property (nonatomic) UISearchController *searchController;
 
 - (void)didTriggerRefresh:(UIRefreshControl *)refreshControl;
+
+- (void)updateTableView;
+- (void)handleError:(NSError *)error;
 
 @end
 
@@ -69,6 +73,7 @@ typedef NS_ENUM(NSInteger, TableSection) {  //
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
     self.searchController.searchResultsUpdater = self;
     self.searchController.searchBar.delegate = self;
+    self.searchController.delegate = self;
     self.searchController.searchBar.frame =
         CGRectMake(CGRectGetMidX(self.searchController.searchBar.frame),
                    CGRectGetMinY(self.searchController.searchBar.frame),
@@ -85,29 +90,48 @@ typedef NS_ENUM(NSInteger, TableSection) {  //
     __weak typeof(self) weakSelf = self;
     [self.fetcher fetchUserFeedSuccess:^(Feed *feedAfterFetch) {
         __strong typeof(self) strongSelf = weakSelf;
-
-        [strongSelf.tableView reloadData];
-
+        [strongSelf updateTableView];
     } failure:^(NSError *error) {  //
-        NSLog(@"error: %@", error);
+        __strong typeof(self) strongSelf = weakSelf;
+        [strongSelf handleError:error];
     }];
 }
 
-#pragma mark - Actions 
+- (void)updateTableView
+{
+    [self.tableView reloadData];
+}
+
+- (void)handleError:(NSError *)error
+{
+    UIAlertController *alertController =
+        [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", nil)
+                                            message:error.userInfo[NSLocalizedDescriptionKey]
+                                     preferredStyle:UIAlertControllerStyleAlert];
+
+    UIAlertAction *action = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil)
+                                                     style:UIAlertActionStyleCancel
+                                                   handler:nil];
+
+    [alertController addAction:action];
+
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
+#pragma mark - Actions
 
 - (void)didTriggerRefresh:(UIRefreshControl *)refreshControl
 {
     __weak typeof(self) weakSelf = self;
-    [self.fetcher fetchUserFeedSuccess:^(Feed *feedAfterFetch) {
+    [self.fetcher refreshFeedSuccess:^(Feed *feedAfterFetch) {
         __strong typeof(self) strongSelf = weakSelf;
-        
-        [strongSelf.tableView reloadData];
+        [strongSelf updateTableView];
         [refreshControl endRefreshing];
-        
     } failure:^(NSError *error) {  //
-        NSLog(@"error: %@", error);
+        __strong typeof(self) strongSelf = weakSelf;
+        [strongSelf handleError:error];
+        [refreshControl endRefreshing];
     }];
-
 }
 
 #pragma mark - UITableViewDataSource & Delegate
@@ -169,8 +193,14 @@ typedef NS_ENUM(NSInteger, TableSection) {  //
 {
     if (indexPath.row == (NSInteger)self.fetcher.currentFeed.assets.count - 5) {
 
-        [self.fetcher fetchNextPageSuccess:^(Feed *feedAfterFetch) { [self.tableView reloadData]; }
-            failure:^(NSError *error) { NSLog(@"error: %@", error); }];
+        __weak typeof(self) weakSelf = self;
+        [self.fetcher fetchNextPageSuccess:^(Feed *feedAfterFetch) {  //
+            __strong typeof(self) strongSelf = weakSelf;
+            [strongSelf updateTableView];
+        } failure:^(NSError *error) {  //
+            __strong typeof(self) strongSelf = weakSelf;
+            [strongSelf handleError:error];
+        }];
     }
 }
 
@@ -180,23 +210,50 @@ typedef NS_ENUM(NSInteger, TableSection) {  //
         return;
     }
 
-    NSLog(@"did select");
+    //    NSLog(@"did select");
 }
 
 #pragma mark - UISearchResultsUpdating
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
-    NSLog(@"search");
+    //    NSLog(@"search");
+}
+
+#pragma mark - UISearchControllerDelegate
+
+- (void)willDismissSearchController:(UISearchController *)searchController
+{
+    __weak typeof(self) weakSelf = self;
+    [self.fetcher fetchUserFeedSuccess:^(Feed *feedAfterFetch) {  //
+        __strong typeof(self) strongSelf = weakSelf;
+
+        [strongSelf updateTableView];
+    } failure:^(NSError *error) {  //
+        __strong typeof(self) strongSelf = weakSelf;
+        [strongSelf handleError:error];
+
+    }];
 }
 
 #pragma mark - UISearchBarDelegate
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    NSLog(@"search button!");
-
     [self.searchController dismissViewControllerAnimated:YES completion:nil];
+    NSString *query = self.searchController.searchBar.text;
+    query = [query stringByReplacingOccurrencesOfString:@" " withString:@""];
+    __weak typeof(self) weakSelf = self;
+    [self.fetcher fetchItemsWithTag:query
+        success:^(Feed *feedAfterFetch) {  //
+            __strong typeof(self) strongSelf = weakSelf;
+
+            [strongSelf updateTableView];
+        }
+        failure:^(NSError *error) {  //
+            __strong typeof(self) strongSelf = weakSelf;
+            [strongSelf handleError:error];
+        }];
 }
 
 @end
