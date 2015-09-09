@@ -10,12 +10,13 @@
 #import <Mantle/MTLJSONAdapter.h>
 
 @class User;
+@class Image;
 
 @interface Asset : BaseModel <MTLJSONSerializing>
 
 @property (nonatomic) NSString *identifier;
 @property (nonatomic) User *owner;
 @property (nonatomic) NSDate *postDate;
-@property (nonatomic) NSURL *assetURL;
+@property (nonatomic) Image *image;
 
 @end

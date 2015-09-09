@@ -8,16 +8,19 @@
 
 #import "Asset.h"
 #import "User.h"
+#import "Image.h"
 #import <Mantle/Mantle.h>
 
 @implementation Asset
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey
 {
-    return @{@"owner" : @"user",
-             @"identifier" : @"id",
-             @"postDate" : @"created_time",
-             @"assetURL" : @"images.standart_resolution.url"};
+    return @{
+        @"owner" : @"user",
+        @"identifier" : @"id",
+        @"postDate" : @"created_time",
+        @"image" : @"images.standart_resolution"
+    };
 }
 
 + (NSValueTransformer *)ownerJSONTransformer
@@ -29,7 +32,6 @@
     } reverseBlock:^id(User *user, BOOL *success, NSError *__autoreleasing *error) {
         return [MTLJSONAdapter JSONDictionaryFromModel:user error:error];
     }];
-    
 }
 
 + (NSValueTransformer *)postDateJSONTransformer
@@ -42,12 +44,17 @@
     } reverseBlock:^id(NSDate *date, BOOL *success, NSError *__autoreleasing *error) {
         return [@([date timeIntervalSince1970]) stringValue];
     }];
-    
 }
 
-+ (NSValueTransformer *)assetURLJSONTransformer
++ (NSValueTransformer *)imageJSONTransformer
 {
-    return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
+    return [MTLValueTransformer transformerUsingForwardBlock:^id(NSDictionary *imageDict,
+                                                                 BOOL *success,
+                                                                 NSError *__autoreleasing *error) {
+        return [MTLJSONAdapter modelOfClass:[Image class] fromJSONDictionary:imageDict error:error];
+    } reverseBlock:^id(Image *image, BOOL *success, NSError *__autoreleasing *error) {
+        return [MTLJSONAdapter JSONDictionaryFromModel:image error:error];
+    }];
 }
 
 

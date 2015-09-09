@@ -15,6 +15,8 @@
 @property (nonatomic) UIView *headerContainer;
 @property (nonatomic) UILabel *loadingLabel;
 
+//@property (nonatomic) NSLayoutConstraint *aspectRatioConstraint;
+
 - (void)setupConstraints;
 
 @end
