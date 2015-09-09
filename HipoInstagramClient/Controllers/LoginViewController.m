@@ -7,9 +7,9 @@
 //
 
 #import "LoginViewController.h"
-#import "APIManager.h"
-
 #import "FeedViewController.h"
+
+#import "APIManager.h"
 
 @import WebKit;
 
@@ -58,7 +58,7 @@
     if (!token) {
         return nil;
     }
-    
+
     NSString *userID = [token componentsSeparatedByString:@"."][0];
     return userID;
 }
@@ -70,15 +70,15 @@
     if (tokenParam.location == NSNotFound) {
         return nil;
     }
-    
+
     NSString *token = [urlString substringFromIndex:NSMaxRange(tokenParam)];
-    
+
     // If there are more args, don't include them in the token:
     NSRange endRange = [token rangeOfString:@"&"];
     if (endRange.location != NSNotFound) {
         token = [token substringToIndex:endRange.location];
     }
-    
+
     return token;
 }
 
@@ -96,16 +96,16 @@
 {
     NSURL *url = navigationAction.request.URL;
     if ([APIManager isAuthenticationRedirectHost:url.host]) {
-        
+
         NSString *userID = [self userIDFromURL:url];
         NSString *token = [self tokenFromURL:url];
-        
+
         if (userID && token) {
             [[APIManager sharedManager] saveUserID:userID];
             [[APIManager sharedManager] saveAccessToken:token];
 
             decisionHandler(WKNavigationActionPolicyCancel);
-            
+
             [self proceedToFeed];
             return;
         }

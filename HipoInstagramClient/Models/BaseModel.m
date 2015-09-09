@@ -19,15 +19,9 @@ static NSNumberFormatter *kNumberFormatter = nil;
 + (NSNumberFormatter *)unixTimeFormatter
 {
     if (!kNumberFormatter) {
-        
+
         kNumberFormatter = [NSNumberFormatter new];
         kNumberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
-//        kNumberFormatter = [NSDateFormatter new];
-//
-//        NSLocale *enUSPOSIXLocale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
-//        [kNumberFormatter setLocale:enUSPOSIXLocale];
-//        [kNumberFormatter setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'SSS'Z'"];
-//        [kNumberFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
     }
     return kNumberFormatter;
 }

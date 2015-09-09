@@ -7,7 +7,6 @@
 //
 
 #import "FeedViewController.h"
-
 #import "ImageViewController.h"
 
 #import "PhotoFetcher.h"
@@ -46,7 +45,7 @@ typedef NS_ENUM(NSInteger, TableSection) {  //
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     self.cachedHeights = [NSMutableDictionary dictionary];
 
     self.navigationItem.title = @"Instagram";
@@ -86,7 +85,7 @@ typedef NS_ENUM(NSInteger, TableSection) {  //
                    44.0);
     self.tableView.tableHeaderView = self.searchController.searchBar;
     self.definesPresentationContext = YES;
-    
+
     __weak typeof(self) weakSelf = self;
     [self.fetcher fetchUserFeedSuccess:^(FeedUpdate *update) {
         __strong typeof(self) strongSelf = weakSelf;
@@ -187,7 +186,7 @@ typedef NS_ENUM(NSInteger, TableSection) {  //
 {
     Asset *asset = self.fetcher.currentFeed.assets[(NSUInteger)indexPath.row];
     NSNumber *height = self.cachedHeights[asset.identifier];
-    
+
     if (!height) {
         return 300;
     }
@@ -208,7 +207,7 @@ typedef NS_ENUM(NSInteger, TableSection) {  //
             Asset *asset = self.fetcher.currentFeed.assets[(NSUInteger)indexPath.row];
             [cell bindAsset:asset];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            
+
             return cell;
         }
 
@@ -233,9 +232,10 @@ typedef NS_ENUM(NSInteger, TableSection) {  //
       willDisplayCell:(UITableViewCell *)cell
     forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+
     if (indexPath.section == TableSectionAssets) {
-        // to prevent jumps while using self sizing cells, we cache the height of each cell and return that in estimated row height delegate method
+        // to prevent jumps while using self sizing cells, we cache the height of each cell and
+        // return that in estimated row height delegate method
         //    [cell layoutIfNeeded];
         //    CGFloat height =
         //    [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
@@ -275,15 +275,15 @@ typedef NS_ENUM(NSInteger, TableSection) {  //
 
 - (void)willDismissSearchController:(UISearchController *)searchController
 {
+    // switch to feed when search controller is dismissed
+
     __weak typeof(self) weakSelf = self;
     [self.fetcher fetchUserFeedSuccess:^(FeedUpdate *update) {  //
         __strong typeof(self) strongSelf = weakSelf;
-
         [strongSelf updateTableViewWithUpdate:update];
     } failure:^(NSError *error) {  //
         __strong typeof(self) strongSelf = weakSelf;
         [strongSelf handleError:error];
-
     }];
 }
 
@@ -294,11 +294,11 @@ typedef NS_ENUM(NSInteger, TableSection) {  //
     [self.searchController dismissViewControllerAnimated:YES completion:nil];
     NSString *query = self.searchController.searchBar.text;
     query = [query stringByReplacingOccurrencesOfString:@" " withString:@""];
+
     __weak typeof(self) weakSelf = self;
     [self.fetcher fetchItemsWithTag:query
         success:^(FeedUpdate *update) {  //
             __strong typeof(self) strongSelf = weakSelf;
-
             [strongSelf updateTableViewWithUpdate:update];
         }
         failure:^(NSError *error) {  //
