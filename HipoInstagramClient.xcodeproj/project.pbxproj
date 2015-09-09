@@ -28,6 +28,7 @@
 		5702E69A1B9F9DD1001D3E9E /* PaginationCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5702E6991B9F9DD1001D3E9E /* PaginationCursor.m */; };
 		5702E69D1B9FB905001D3E9E /* Image.m in Sources */ = {isa = PBXBuildFile; fileRef = 5702E69C1B9FB905001D3E9E /* Image.m */; };
 		5702E6A01B9FF7EB001D3E9E /* ImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5702E69F1B9FF7EB001D3E9E /* ImageViewController.m */; };
+		5702E6A31BA00461001D3E9E /* FeedUpdate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5702E6A21BA00461001D3E9E /* FeedUpdate.m */; };
 		AD07C1122F75162B5E71A0A2 /* libPods-HipoInstagramClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A61EED7A51401105BA12796 /* libPods-HipoInstagramClient.a */; };
 /* End PBXBuildFile section */
 
@@ -76,6 +77,8 @@
 		5702E69C1B9FB905001D3E9E /* Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Image.m; sourceTree = "<group>"; };
 		5702E69E1B9FF7EB001D3E9E /* ImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewController.h; sourceTree = "<group>"; };
 		5702E69F1B9FF7EB001D3E9E /* ImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewController.m; sourceTree = "<group>"; };
+		5702E6A11BA00461001D3E9E /* FeedUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedUpdate.h; sourceTree = "<group>"; };
+		5702E6A21BA00461001D3E9E /* FeedUpdate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedUpdate.m; sourceTree = "<group>"; };
 		BF43B69106D115D992781F46 /* Pods-HipoInstagramClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HipoInstagramClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-HipoInstagramClient/Pods-HipoInstagramClient.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -209,6 +212,8 @@
 				5702E6991B9F9DD1001D3E9E /* PaginationCursor.m */,
 				5702E69B1B9FB905001D3E9E /* Image.h */,
 				5702E69C1B9FB905001D3E9E /* Image.m */,
+				5702E6A11BA00461001D3E9E /* FeedUpdate.h */,
+				5702E6A21BA00461001D3E9E /* FeedUpdate.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -356,6 +361,7 @@
 				5702E6881B9F315E001D3E9E /* Feed.m in Sources */,
 				5702E6911B9F903A001D3E9E /* User.m in Sources */,
 				5702E69D1B9FB905001D3E9E /* Image.m in Sources */,
+				5702E6A31BA00461001D3E9E /* FeedUpdate.m in Sources */,
 				5702E6851B9F3017001D3E9E /* LoadingIndicatorCell.m in Sources */,
 				5702E68E1B9F79A4001D3E9E /* PhotoFetcher.m in Sources */,
 				5702E6701B9DFF7F001D3E9E /* APIManager.m in Sources */,

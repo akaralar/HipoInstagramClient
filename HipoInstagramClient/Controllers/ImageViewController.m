@@ -73,10 +73,11 @@ static const CGFloat kZoomStep = 1.5;
     [self.imageView addGestureRecognizer:twoFingerTap];
 
     // calculate minimum scale to perfectly fit image width, and begin at that scale
+
     CGFloat minimumScale = [self.view bounds].size.width / [self.imageView frame].size.width;
     [self.scrollView setMinimumZoomScale:minimumScale];
     [self.scrollView setZoomScale:minimumScale];
-    
+
     self.imageView.center = self.scrollView.center;
 }
 
