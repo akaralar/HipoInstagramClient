@@ -10,4 +10,9 @@
 
 @interface InstagramCell : UITableViewCell
 
+@property (nonatomic) UIImageView *avatar;
+@property (nonatomic) UILabel *username;
+@property (nonatomic) UILabel *relativeTimestamp;
+@property (nonatomic) UIImageView *photo;
+
 @end
