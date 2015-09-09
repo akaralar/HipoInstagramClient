@@ -38,6 +38,8 @@ typedef NS_ENUM(NSInteger, TableSection) { TableSectionAssets, TableSectionLoadi
 
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.estimatedRowHeight = 320;
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
 
     [self.tableView registerClass:[InstagramCell class]
            forCellReuseIdentifier:NSStringFromClass([InstagramCell class])];

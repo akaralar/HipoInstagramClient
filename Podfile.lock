@@ -20,6 +20,7 @@ PODS:
   - AFNetworking/UIKit (2.6.0):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - DateTools (1.7.0)
   - Mantle (2.0.4):
     - Mantle/extobjc (= 2.0.4)
   - Mantle/extobjc (2.0.4)
@@ -27,11 +28,13 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking
+  - DateTools
   - Mantle
   - PureLayout
 
 SPEC CHECKSUMS:
   AFNetworking: 79f7eb1a0fcfa7beb409332b2ca49afe9ce53b05
+  DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
   Mantle: 6bee68168423948be0c0c5924832bf3af188e099
   PureLayout: f35f5384c9c4e4479df041dbe33ad7577b71ddfb
 

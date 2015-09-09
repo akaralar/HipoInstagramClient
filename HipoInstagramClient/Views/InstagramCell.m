@@ -46,8 +46,8 @@ static NSDateFormatter *kRelativeTimestampFormatter = nil;
     if (!kRelativeTimestampFormatter) {
 
         kRelativeTimestampFormatter = [[NSDateFormatter alloc] init];
-        kRelativeTimestampFormatter.timeStyle = NSDateFormatterMediumStyle;
-        kRelativeTimestampFormatter.dateStyle = NSDateFormatterMediumStyle;
+        kRelativeTimestampFormatter.timeStyle = NSDateFormatterShortStyle;
+//        kRelativeTimestampFormatter.dateStyle = NSDateFormatterMediumStyle;
         kRelativeTimestampFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
 
         kRelativeTimestampFormatter.doesRelativeDateFormatting = YES;
@@ -57,8 +57,8 @@ static NSDateFormatter *kRelativeTimestampFormatter = nil;
     [self.contentView addSubview:_headerContainer];
 
     _avatar = [[UIImageView alloc] initForAutoLayout];
-    ;
     _avatar.layer.cornerRadius = [InstagramCell avatarSize].height / 2.0;
+    _avatar.clipsToBounds = YES;
     [_headerContainer addSubview:_avatar];
 
     _username = [[UILabel alloc] initForAutoLayout];
@@ -131,6 +131,7 @@ static NSDateFormatter *kRelativeTimestampFormatter = nil;
     [_avatar autoSetDimensionsToSize:[InstagramCell avatarSize]];
 
     [_username autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
+    [_username autoPinEdge:ALEdgeLeading toEdge:ALEdgeTrailing ofView:_avatar withOffset:10];
 
     [_relativeTimestamp autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
     [_relativeTimestamp autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:10];

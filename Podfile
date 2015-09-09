@@ -6,5 +6,6 @@ target 'HipoInstagramClient' do
 pod 'AFNetworking'
 pod 'Mantle'
 pod 'PureLayout'
+pod 'DateTools'
 
 end
