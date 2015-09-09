@@ -10,8 +10,8 @@
 
 @class Feed;
 
-typedef void(^FetchSuccessBlock)(Feed *feedAfterFetch);
-typedef void(^FetchFailureBlock)(NSError *error);
+typedef void (^FetchSuccessBlock)(Feed *feedAfterFetch);
+typedef void (^FetchFailureBlock)(NSError *error);
 
 @interface PhotoFetcher : BaseModel
 

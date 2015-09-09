@@ -38,8 +38,7 @@ typedef NS_ENUM(NSInteger, TableSection) { TableSectionAssets, TableSectionLoadi
 
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    self.tableView.estimatedRowHeight = 500;
-//    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.estimatedRowHeight = 300;
 
     [self.tableView registerClass:[InstagramCell class]
            forCellReuseIdentifier:NSStringFromClass([InstagramCell class])];
@@ -61,7 +60,9 @@ typedef NS_ENUM(NSInteger, TableSection) { TableSectionAssets, TableSectionLoadi
 
         [strongSelf.tableView reloadData];
 
-    } failure:^(NSError *error) { NSLog(@"error: %@", error); }];
+    } failure:^(NSError *error) {  //
+        NSLog(@"error: %@", error);
+    }];
 }
 
 
@@ -69,8 +70,7 @@ typedef NS_ENUM(NSInteger, TableSection) { TableSectionAssets, TableSectionLoadi
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    //    return self.fetcher.currentFeed.isDisplayingLastPage ? 1 : 2;
-    return 1;
+        return self.fetcher.currentFeed.isDisplayingLastPage ? 1 : 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -95,10 +95,10 @@ typedef NS_ENUM(NSInteger, TableSection) { TableSectionAssets, TableSectionLoadi
         case TableSectionAssets: {
 
             NSString *identifier = NSStringFromClass([InstagramCell class]);
-            InstagramCell *cell =[tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
+            InstagramCell *cell =
+                [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
             [cell bindAsset:self.fetcher.currentFeed.assets[(NSUInteger)indexPath.row]];
             return cell;
-//            return [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
         }
 
         case TableSectionLoading: {
@@ -119,20 +119,15 @@ typedef NS_ENUM(NSInteger, TableSection) { TableSectionAssets, TableSectionLoadi
       willDisplayCell:(UITableViewCell *)cell
     forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    switch (indexPath.section) {
-//        case TableSectionAssets: {
-//            InstagramCell *photoCell = (InstagramCell *)cell;
-//            Asset *asset = self.fetcher.currentFeed.assets[(NSUInteger)indexPath.row];
-//            [photoCell bindAsset:asset];
-//        } break;
-//
-//        case TableSectionLoading:
-//
-//            break;
-//
-//        default:
-//            break;
-//    }
+    if (indexPath.row == (NSInteger)self.fetcher.currentFeed.assets.count - 5) {
+        
+        [self.fetcher fetchNextPageSuccess:^(Feed *feedAfterFetch) {
+            
+            [self.tableView reloadData];
+        } failure:^(NSError *error) {
+            NSLog(@"error: %@", error);
+        }];
+    }
 }
 
 @end

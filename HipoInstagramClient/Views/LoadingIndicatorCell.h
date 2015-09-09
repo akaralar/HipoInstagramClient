@@ -10,4 +10,6 @@
 
 @interface LoadingIndicatorCell : UITableViewCell
 
+@property (nonatomic) UIActivityIndicatorView *loadingIndicator;
+
 @end
